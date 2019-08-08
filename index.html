@@ -1,278 +1,291 @@
+
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+<meta charset="utf-8" >
+
 <title>宋航</title>
-<meta name="description" content="相信美好的事情即将发生" />
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1565268909762">
+<meta name="description" content="相信美好的事情即将发生">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1565268991938">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://songhanghang.github.io">
-  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1565268909762" alt="">
-  </a>
-  <h1 class="site-title">
-    宋航
-  </h1>
-  <p class="site-description">
-    相信美好的事情即将发生
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/songhanghang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://songhanghang.github.io">
+        <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1565268991938" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://songhanghang.github.io">
+        <h1 class="site-title">宋航</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
   </div>
 </div>
 
-    
-        <div class="post-container">
-  
-    <article class="post">
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        
+        
+<section class="post-item">
+    <div class="content">
       <a href="https://songhanghang.github.io/post/hello-gridea">
         <h2 class="post-title">Flutter初识</h2>
       </a>
-      <div class="post-info">
-        <span>
-          2019-07-29
-        </span>
-        <span>
-          7 min read
-        </span>
-        
-          <a href="https://songhanghang.github.io/tag/mGh23E4z4" class="post-tag">
-            # Flutter
-          </a>
-        
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-        <a href="https://songhanghang.github.io/post/hello-gridea" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/hello-gridea.png')">
-        </a>
-      
       <div class="post-abstract">
         
-      </di>
-    </article>
-  
-    <article class="post">
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-07-29</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://songhanghang.github.io/tag/mGh23E4z4">
+                Flutter
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://songhanghang.github.io/tag/YaO8HL_it">
+                Android
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://songhanghang.github.io/post/hello-gridea">
+        <div class="feature-container" style="background-image: url('https://songhanghang.github.io/post-images/hello-gridea.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
       <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
         <h2 class="post-title">Redcord 连接你我</h2>
       </a>
-      <div class="post-info">
-        <span>
-          2019-06-06
-        </span>
-        <span>
-          1 min read
-        </span>
-        
-          <a href="https://songhanghang.github.io/tag/rFS5po1sa" class="post-tag">
-            # App
-          </a>
-        
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-        <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/redcord-lian-jie-ni-wo.png')">
-        </a>
-      
       <div class="post-abstract">
         <p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
 
-      </di>
-    </article>
-  
-    <article class="post">
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-06-06</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://songhanghang.github.io/tag/rFS5po1sa">
+                App
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://songhanghang.github.io/tag/YaO8HL_it">
+                Android
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
+        <div class="feature-container" style="background-image: url('https://songhanghang.github.io/post-images/redcord-lian-jie-ni-wo.png')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
       <a href="https://songhanghang.github.io/post/makefile-zhi-nan">
         <h2 class="post-title">MakeFile指南</h2>
       </a>
-      <div class="post-info">
-        <span>
-          2018-07-01
-        </span>
-        <span>
-          9 min read
-        </span>
-        
-      </div>
-      
       <div class="post-abstract">
         
-      </di>
-    </article>
-  
-    <article class="post">
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2018-07-01</span>
+        
+      </div>
+    </div>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
       <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">
         <h2 class="post-title">Goaway 远离手机</h2>
       </a>
-      <div class="post-info">
-        <span>
-          2018-04-05
-        </span>
-        <span>
-          1 min read
-        </span>
-        
-          <a href="https://songhanghang.github.io/tag/rFS5po1sa" class="post-tag">
-            # App
-          </a>
-        
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-        <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/goaway-yuan-chi-shou-ji.jpeg')">
-        </a>
-      
       <div class="post-abstract">
         <p>这是一款有意思的防沉迷应用...<br>
 时刻提醒消耗在手机上的时间，<br>
 点亮关闭间帮你记录时间，</p>
 
-      </di>
-    </article>
-  
-    <article class="post">
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2018-04-05</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://songhanghang.github.io/tag/rFS5po1sa">
+                App
+                
+                  ，
+                
+              </a>
+            
+              <a href="https://songhanghang.github.io/tag/YaO8HL_it">
+                Android
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">
+        <div class="feature-container" style="background-image: url('https://songhanghang.github.io/post-images/goaway-yuan-chi-shou-ji.jpeg')">
+        </div>
+      </a>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
       <a href="https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang">
         <h2 class="post-title">如何保证ImageView.setImageResource()传入.9图片时展示正常？</h2>
       </a>
-      <div class="post-info">
-        <span>
-          2017-08-09
-        </span>
-        <span>
-          2 min read
-        </span>
-        
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
       <div class="post-abstract">
         <blockquote>
 <p>ImageView占位图可以通过backgroud设置.9图片实现，但是在src设置成带透明alpha图片时会透视显示背景，所以用src实现占位图更合理，但是scaleType的裁剪方式同样会影响到作为src的.9图片,这将会导致.9图片不能按照预期展示占位图</p>
 </blockquote>
 
-      </di>
-    </article>
-  
-</div>
-
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2017-08-09</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://songhanghang.github.io/tag/YaO8HL_it">
+                Android
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
     
-        <div class="pagination-container">
+  </section>
+
+
+<div class="pagination-container">
   
   
 </div>
 
+
+      </div>
+
+      <div class="site-footer">
+  <div class="slogan">相信美好的事情即将发生</div>
+  <div class="social-container">
     
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://songhanghang.github.io/atom.xml" target="_blank">RSS</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://songhanghang.github.io/atom.xml" target="_blank">RSS</a>
 </div>
 
-<script>
-  hljs.initHighlightingOnLoad()
 
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+    </div>
+    <script type="application/javascript">
 
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
+hljs.initHighlightingOnLoad()
 
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>
