@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-08T12:23:25.385Z</updated>
+    <updated>2019-08-08T12:25:05.049Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -1332,7 +1332,7 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
         <link href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">
         </link>
         <updated>2018-04-05T12:09:18.000Z</updated>
-        <content type="html"><![CDATA[<p><img src="https://wx4.sinaimg.cn/mw690/006292TQgy1fp2xd16zz6j30pm0iedn4.jpg" alt="预览图"></p>
+        <content type="html"><![CDATA[<!-- more -->
 <h1 id="软件介绍">软件介绍</h1>
 <p>这是一款有意思的防沉迷应用...</p>
 <p>时刻提醒消耗在手机上的时间，</p>
