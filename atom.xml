@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-08T12:25:05.049Z</updated>
+    <updated>2019-08-08T12:27:48.352Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -16,14 +16,22 @@
         <link href="https://songhanghang.github.io/post/hello-gridea">
         </link>
         <updated>2019-07-29T12:09:30.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
-<h1 id="flutter-分享">Flutter 分享</h1>
+        <summary type="html"><![CDATA[<h1 id="flutter-分享">Flutter 分享</h1>
 <blockquote>
 <p>参考：<br>
 <a href="https://flutterchina.club/">Flutter中文网: https://flutterchina.club</a><br>
 <a href="https://book.flutterchina.club/">Flutter实战: https://book.flutterchina.club</a><br>
 <a href="https://github.com/songhanghang/flutter_news_demo">Demo: https://github.com/songhanghang/flutter_news_demo</a></p>
 </blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<h1 id="flutter-分享">Flutter 分享</h1>
+<blockquote>
+<p>参考：<br>
+<a href="https://flutterchina.club/">Flutter中文网: https://flutterchina.club</a><br>
+<a href="https://book.flutterchina.club/">Flutter实战: https://book.flutterchina.club</a><br>
+<a href="https://github.com/songhanghang/flutter_news_demo">Demo: https://github.com/songhanghang/flutter_news_demo</a></p>
+</blockquote>
+<!-- more -->
 <h2 id="hybrid简介">Hybrid简介</h2>
 <h3 id="h5-原生">H5 + 原生</h3>
 <p>WebView渲染界面，性能体验相对Native较差。</p>
@@ -561,12 +569,18 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
         <link href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
         </link>
         <updated>2019-06-06T11:59:33.000Z</updated>
-        <content type="html"><![CDATA[ <!-- more -->
-<blockquote>
+        <summary type="html"><![CDATA[<blockquote>
 <p>红绳-连接你我<br>
 <a href="https://github.com/songhanghang/redcord">https://github.com/songhanghang/redcord</a></p>
 </blockquote>
 <p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>红绳-连接你我<br>
+<a href="https://github.com/songhanghang/redcord">https://github.com/songhanghang/redcord</a></p>
+</blockquote>
+<p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
+<!-- more -->
 <p>如果你和家人都是iphone用户，可以开启<a href="https://support.apple.com/zh-cn/HT201087">家人位置共享</a>，这样可以随时随地查看Ta在什么位置。</p>
 <p>Android现在并没有很好的解决方案，强大如微信也必须手动开启位置共享，当然微信不做是有他的道理...</p>
 <p>但是我确实有这样的需求，我的TA只要一出门，那是永远联系不上的, 嗯！确实有必要&quot;偷偷&quot;给她定位！于是乎，手撕了这个程序...</p>
@@ -627,8 +641,7 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
         <link href="https://songhanghang.github.io/post/makefile-zhi-nan">
         </link>
         <updated>2018-07-01T12:13:27.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
-<blockquote>
+        <content type="html"><![CDATA[<blockquote>
 <p>参考:</p>
 <p>GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://www.gnu.org/software/make/manual/make.html</a></p>
 <p>Android.mk: <a href="https://developer.android.com/ndk/guides/android_mk.html?hl=zh-cn">https://developer.android.com/ndk/guides/android_mk.html?hl=zh-cn</a></p>
@@ -1332,8 +1345,7 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
         <link href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">
         </link>
         <updated>2018-04-05T12:09:18.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
-<h1 id="软件介绍">软件介绍</h1>
+        <summary type="html"><![CDATA[<h1 id="软件介绍">软件介绍</h1>
 <p>这是一款有意思的防沉迷应用...</p>
 <p>时刻提醒消耗在手机上的时间，</p>
 <p>点亮关闭间帮你记录时间，</p>
@@ -1341,6 +1353,16 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
 <p>五彩壁纸随着使用时间逐渐变化，</p>
 <p>长按显示各个app的使用排名，</p>
 <p>时刻警示你放下手机！</p>
+]]></summary>
+        <content type="html"><![CDATA[<h1 id="软件介绍">软件介绍</h1>
+<p>这是一款有意思的防沉迷应用...</p>
+<p>时刻提醒消耗在手机上的时间，</p>
+<p>点亮关闭间帮你记录时间，</p>
+<p>底部tips告知你当前状态，</p>
+<p>五彩壁纸随着使用时间逐渐变化，</p>
+<p>长按显示各个app的使用排名，</p>
+<p>时刻警示你放下手机！</p>
+<!-- more -->
 <h1 id="20-下载">2.0 下载</h1>
 <p><a href="https://www.coolapk.com/apk/226765">点这Download https://www.coolapk.com/apk/226765</a></p>
 <h1 id="注意事项">注意事项</h1>
@@ -1401,10 +1423,14 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
         <link href="https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang">
         </link>
         <updated>2017-08-09T12:14:53.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
-<blockquote>
+        <summary type="html"><![CDATA[<blockquote>
 <p>ImageView占位图可以通过backgroud设置.9图片实现，但是在src设置成带透明alpha图片时会透视显示背景，所以用src实现占位图更合理，但是scaleType的裁剪方式同样会影响到作为src的.9图片,这将会导致.9图片不能按照预期展示占位图</p>
 </blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>ImageView占位图可以通过backgroud设置.9图片实现，但是在src设置成带透明alpha图片时会透视显示背景，所以用src实现占位图更合理，但是scaleType的裁剪方式同样会影响到作为src的.9图片,这将会导致.9图片不能按照预期展示占位图</p>
+</blockquote>
+<!-- more -->
 <h2 id="现象">现象</h2>
 <ul>
 <li>
