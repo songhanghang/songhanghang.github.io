@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://github.com/songhanghang.github.io</id>
+    <id>https://songhanghang.github.io</id>
     <title>songhang</title>
-    <updated>2019-08-08T08:29:31.746Z</updated>
+    <updated>2019-08-08T08:30:30.992Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://github.com/songhanghang.github.io"/>
-    <link rel="self" href="https://github.com/songhanghang.github.io/atom.xml"/>
+    <link rel="alternate" href="https://songhanghang.github.io"/>
+    <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
     <subtitle>不闲了</subtitle>
-    <logo>https://github.com/songhanghang.github.io/images/avatar.png</logo>
-    <icon>https://github.com/songhanghang.github.io/favicon.ico</icon>
+    <logo>https://songhanghang.github.io/images/avatar.png</logo>
+    <icon>https://songhanghang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, songhang</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://github.com/songhanghang.github.io/post/hello-gridea</id>
-        <link href="https://github.com/songhanghang.github.io/post/hello-gridea">
+        <id>https://songhanghang.github.io/post/hello-gridea</id>
+        <link href="https://songhanghang.github.io/post/hello-gridea">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
