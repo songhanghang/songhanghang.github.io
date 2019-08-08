@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-08T10:36:04.412Z</updated>
+    <updated>2019-08-08T12:07:13.017Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -10,6 +10,72 @@
     <logo>https://songhanghang.github.io/images/avatar.png</logo>
     <icon>https://songhanghang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 宋航</rights>
+    <entry>
+        <title type="html"><![CDATA[Redcord 连接你我]]></title>
+        <id>https://songhanghang.github.io/post/redcord-lian-jie-ni-wo</id>
+        <link href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
+        </link>
+        <updated>2019-08-08T11:59:33.000Z</updated>
+        <content type="html"><![CDATA[ <!-- more -->
+<blockquote>
+<p>红绳-连接你我<br>
+<a href="https://github.com/songhanghang/redcord">https://github.com/songhanghang/redcord</a></p>
+</blockquote>
+<p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
+<p>如果你和家人都是iphone用户，可以开启<a href="https://support.apple.com/zh-cn/HT201087">家人位置共享</a>，这样可以随时随地查看Ta在什么位置。</p>
+<p>Android现在并没有很好的解决方案，强大如微信也必须手动开启位置共享，当然微信不做是有他的道理...</p>
+<p>但是我确实有这样的需求，我的TA只要一出门，那是永远联系不上的, 嗯！确实有必要&quot;偷偷&quot;给她定位！于是乎，手撕了这个程序...</p>
+<p>先梳理下有哪些需求：</p>
+<ol>
+<li>需要定位</li>
+<li>需要把定位信息同步给我</li>
+<li>需要程序一直活着</li>
+</ol>
+<p>定位问题高德地图SDK解决，同步问题leancloud解决，怎么才能一直活着，这是个头疼的问题，微信可以被各大手机厂商白名单呵护着, 但是一般App不可能有这个待遇。</p>
+<p>业内能人志士为了保活使出各种奇淫技巧，例如：</p>
+<ol>
+<li>双进程互调</li>
+<li>可见前台进程</li>
+<li>一个可见像素点Activity</li>
+<li>应用联盟(流氓联盟)，通过不同的App发广播互调</li>
+<li>利用Android系统漏洞<br>
+总之黑白手段都有，但是活的都不光彩，程序还是要漂亮的活着！</li>
+</ol>
+<p>于是乎想到了Android的动态壁纸，这玩意好，壁纸是脸面，系统要脸，就不能让它死，死了也要主动拉起来!</p>
+<p>那么做个好看的动态壁纸，通过壁纸定位和同步信息就可以解决这个问题.</p>
+<p>Coding....</p>
+<p>emmmmm....</p>
+<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g25r4ipgbkg30bd0om4qr.gif" alt="图片"></p>
+<h3 id="下载">下载</h3>
+<p><img src="https://wx4.sinaimg.cn/mw690/006292TQly1g3ac6bxnz9j30440440b9.jpg" alt="图片"></p>
+<p><a href="https://www.coolapk.com/apk/com.song.redcord">https://www.coolapk.com/apk/com.song.redcord</a></p>
+<h3 id="软件功能介绍">软件功能介绍</h3>
+<h4 id="注册与登录">注册与登录</h4>
+<p>注册不需要手机号,不需要邮箱（不会上传你的隐私），直接点击注册即可，注册成功后会生成你的ID, 显示在屏幕的左上角，这是你以后登录的唯一凭证（注意保密），注册成功后，需要配对TA的ID, 才能使用，也可以发送自己ID给Ta, 让对方完成配对。配对完成请及时在详情页备份两人Id。<br>
+你与Ta的ID唯一绑定，绑定后不可解绑，或者与他人绑定。</p>
+<h4 id="主界面">主界面</h4>
+<p>App地图界面，左上角显示两人ID, 中间为彼此位置及驾车导航路线，信息框显示Ta的位置信息，提供一些常用功能:</p>
+<ol>
+<li>见Ta       <code>一键导航见Ta，高德，百度地图</code></li>
+<li>设置壁纸</li>
+<li>备份       <code>备份两人ID, 以便换手机，或者清空缓存找回</code></li>
+<li>打赏       <code>用的leancloud的服务，免费的访问量很少，很期望您的支持</code></li>
+<li>关于       <code>指向这篇ReadMe</code></li>
+</ol>
+<h4 id="动态壁纸">动态壁纸</h4>
+<p>这是个魔性的壁纸，屏幕上一根红绳在不停扭动，线的两端连着两个圆，象征着彼此，中间显示着实时位置距离，背景色随着扭动渐变，触摸屏幕动画随手而动，早上，下午，晚上三组颜色自动切换。</p>
+<h4 id="其他">其他</h4>
+<ol>
+<li>耗电   <code>主界面:10s定位一次，退出后不再定位;动态壁纸:可见时30s定位一次，不可见不定位。所以不用担心耗电问题</code></li>
+<li>用户隐私 <code>没有上传你任何其他信息，自行查看代码</code></li>
+<li>数据服务 <code>用的leancloud提供数据支持，每天只有3万次免费请求，所以急需您的支持</code></li>
+<li>Bug <code>小米手机上完成的开发测试，其他机器有问题，欢迎反馈</code></li>
+</ol>
+<h3 id="联系方式">联系方式</h3>
+<p>邮箱: 1131442853@qq.com</p>
+<p><a href="https://github.com/songhanghang">github: https://github.com/songhanghang</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Flutter初识]]></title>
         <id>https://songhanghang.github.io/post/hello-gridea</id>
