@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-08T12:30:18.042Z</updated>
+    <updated>2019-08-08T12:33:23.137Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -16,20 +16,12 @@
         <link href="https://songhanghang.github.io/post/hello-gridea">
         </link>
         <updated>2019-07-29T12:09:30.000Z</updated>
-        <summary type="html"><![CDATA[<blockquote>
-<p>参考：<br>
-<a href="https://flutterchina.club/">Flutter中文网: https://flutterchina.club</a><br>
-<a href="https://book.flutterchina.club/">Flutter实战: https://book.flutterchina.club</a><br>
-<a href="https://github.com/songhanghang/flutter_news_demo">Demo: https://github.com/songhanghang/flutter_news_demo</a></p>
-</blockquote>
-]]></summary>
         <content type="html"><![CDATA[<blockquote>
 <p>参考：<br>
 <a href="https://flutterchina.club/">Flutter中文网: https://flutterchina.club</a><br>
 <a href="https://book.flutterchina.club/">Flutter实战: https://book.flutterchina.club</a><br>
 <a href="https://github.com/songhanghang/flutter_news_demo">Demo: https://github.com/songhanghang/flutter_news_demo</a></p>
 </blockquote>
-<!-- more -->
 <h2 id="hybrid简介">Hybrid简介</h2>
 <h3 id="h5-原生">H5 + 原生</h3>
 <p>WebView渲染界面，性能体验相对Native较差。</p>
@@ -635,17 +627,9 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
         <link href="https://songhanghang.github.io/post/makefile-zhi-nan">
         </link>
         <updated>2018-07-01T12:13:27.000Z</updated>
-        <summary type="html"><![CDATA[<blockquote>
-<p>参考:</p>
-<p>GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://www.gnu.org/software/make/manual/make.html</a></p>
-</blockquote>
-]]></summary>
         <content type="html"><![CDATA[<blockquote>
 <p>参考:</p>
 <p>GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://www.gnu.org/software/make/manual/make.html</a></p>
-</blockquote>
-<!-- more -->
-<blockquote>
 <p>Android.mk: <a href="https://developer.android.com/ndk/guides/android_mk.html?hl=zh-cn">https://developer.android.com/ndk/guides/android_mk.html?hl=zh-cn</a></p>
 <p>陈皓: <a href="https://seisman.github.io/how-to-write-makefile/">https://seisman.github.io/how-to-write-makefile/</a></p>
 <p>建议:<br>
@@ -1349,20 +1333,16 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
         <updated>2018-04-05T12:09:18.000Z</updated>
         <summary type="html"><![CDATA[<p>这是一款有意思的防沉迷应用...<br>
 时刻提醒消耗在手机上的时间，<br>
-点亮关闭间帮你记录时间，<br>
-底部tips告知你当前状态，<br>
-五彩壁纸随着使用时间逐渐变化，<br>
-长按显示各个app的使用排名，<br>
-时刻警示你放下手机！</p>
+点亮关闭间帮你记录时间，</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>这是一款有意思的防沉迷应用...<br>
 时刻提醒消耗在手机上的时间，<br>
 点亮关闭间帮你记录时间，<br>
+<!-- more --><br>
 底部tips告知你当前状态，<br>
 五彩壁纸随着使用时间逐渐变化，<br>
 长按显示各个app的使用排名，<br>
 时刻警示你放下手机！</p>
-<!-- more -->
 <h1 id="20-下载">2.0 下载</h1>
 <p><a href="https://www.coolapk.com/apk/226765">点这Download https://www.coolapk.com/apk/226765</a></p>
 <h1 id="注意事项">注意事项</h1>
