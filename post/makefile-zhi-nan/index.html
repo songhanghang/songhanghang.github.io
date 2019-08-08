@@ -1,633 +1,155 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://songhanghang.github.io</id>
-    <title>宋航</title>
-    <updated>2019-08-08T12:14:44.741Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://songhanghang.github.io"/>
-    <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
-    <subtitle>相信美好的事情即将发生</subtitle>
-    <logo>https://songhanghang.github.io/images/avatar.png</logo>
-    <icon>https://songhanghang.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, 宋航</rights>
-    <entry>
-        <title type="html"><![CDATA[Flutter初识]]></title>
-        <id>https://songhanghang.github.io/post/hello-gridea</id>
-        <link href="https://songhanghang.github.io/post/hello-gridea">
-        </link>
-        <updated>2019-07-29T12:09:30.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
-<h1 id="flutter-分享">Flutter 分享</h1>
-<blockquote>
-<p>参考：<br>
-<a href="https://flutterchina.club/">Flutter中文网: https://flutterchina.club</a><br>
-<a href="https://book.flutterchina.club/">Flutter实战: https://book.flutterchina.club</a><br>
-<a href="https://github.com/songhanghang/flutter_news_demo">Demo: https://github.com/songhanghang/flutter_news_demo</a></p>
-</blockquote>
-<h2 id="hybrid简介">Hybrid简介</h2>
-<h3 id="h5-原生">H5 + 原生</h3>
-<p>WebView渲染界面，性能体验相对Native较差。</p>
-<h3 id="js开发-原生">JS开发 + 原生</h3>
-<p>代表框架React Native, Weex, 快应用, 原理都是JS去映射 Android | IOS 原生控件，原生渲染速度快于H5，受限于JS解释执行，及调用桥开销，速度无法追赶Native。</p>
-<h3 id="自研gui-原生">自研GUI + 原生</h3>
-<p>代表框架QT, Flutter, 渲染引擎直接对接不同平台系统API, 对外提供统一接口，性能和原生接近，但是动态性不足，需要编译发包。</p>
-<blockquote>
-<p>PS：QT在桌面端应用比较广泛，但是移动端因引擎大, C++开发效率低，坑多，推出即夭折。</p>
-</blockquote>
-<h2 id="flutter登场">Flutter登场</h2>
-<p>Flutter是Google发布的一个用于创建跨平台、高性能移动应用的框架。Flutter和QT mobile一样，都没有使用原生控件，相反都实现了一个自绘引擎，使用自身的布局、绘制系统。<br>
-以下是官网介绍：</p>
-<ol>
-<li>
-<p>快速开发<br>
-毫秒级的热重载，修改后，您的应用界面会立即更新。使用丰富的、完全可定制的widget在几分钟内构建原生界面.</p>
-</li>
-<li>
-<p>富有表现力和灵活的UI<br>
-快速发布聚焦于原生体验的功能。分层的架构允许您完全自定义，从而实现难以置信的快速渲染和富有表现力、灵活的设计。</p>
-</li>
-<li>
-<p>原生性能<br>
-Flutter包含了许多核心的widget，如滚动、导航、图标和字体等，这些都可以在iOS和Android上达到原生应用一样的性能。</p>
-</li>
-<li>
-<p>访问本地功能和SDK<br>
-通过平台相关的API、第三方SDK和原生代码让您的应用变得强大易用。 Flutter允许您复用现有的Java、Swift或ObjC代码，访问iOS和Android上的原生系统功能和系统SDK。</p>
-</li>
-</ol>
-<h2 id="flutter思想">Flutter思想</h2>
-<h3 id="组合-集成">组合 &gt; 集成</h3>
-<p>在Flutter中一切UI相关操作都是Widget，布局，容器，手势，滑动，功能都是Widget, 通过自由组合这些Widget来搭建功能界面。</p>
-<h3 id="响应式编程">响应式编程</h3>
-<p>响应式编程一句话总结就是<code>数据状态改变则UI随之自动改变</code>，React Native和DataBinding都是该思想产物， 在Flutter中表现的更加淋漓尽致。数据改变时通过setState() {}, 通知Flutter Framework执行Rebuild Widget -&gt; Update Element -&gt; Render UI。</p>
-<h2 id="flutter核心原理">Flutter核心原理</h2>
-<h3 id="框架分层">框架分层</h3>
-<p>Flutter框架是一个分层的结构，每个层都建立在前一层之上。使用Skia渲染引擎，因Android自带Skia, 所以打包Android不包含Skia, 这也是IOS体积较大的重要原因。<br>
-<img src="https://wx4.sinaimg.cn/mw690/006292TQly1g48yigwv61j30yu0iyq7m.jpg" alt=""></p>
-<h3 id="渲染流程">渲染流程</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/5639324-4424415ff5f8681f.jpg?imageMogr2/auto-orient/" alt=""></p>
-<h3 id="三棵神树">三棵神树</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/5639324-611c58af9c948150.jpg" alt=""><br>
-所有故事，从这个三棵树开始...<br>
-这三颗🌲分别是 Widget Tree, Element Tree, RenderObject Tree.</p>
-<h4 id="第一颗widget">第一颗Widget🌲</h4>
-<pre><code class="language-dart">/// Describes the configuration for an [Element].
-abstract class Widget extends DiagnosticableTree {
-  /// Initializes [key] for subclasses.
-  const Widget({ this.key });
-  final Key key;
-  
-  @protected
-  Element createElement();
+<html>
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<title>MakeFile指南 | 宋航</title>
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1565266482077">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css" type='text/css' media='all'>
 
-  /// A short, textual description of this widget.
-  @override
-  String toStringShort() {
-    return key == null ? '$runtimeType' : '$runtimeType-$key';
-  }
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.defaultDiagnosticsTreeStyle = DiagnosticsTreeStyle.dense;
-  }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 
-  /// Whether the `newWidget` can be used to update an [Element] that currently
-  static bool canUpdate(Widget oldWidget, Widget newWidget) {
-    return oldWidget.runtimeType == newWidget.runtimeType
-        &amp;&amp; oldWidget.key == newWidget.key;
-  }
-}
-</code></pre>
-<p>Widget源码注释 <code>Describes the configuration for an [Element].</code><br>
-Widget作用就是为Element描述需要的配置， 负责创建Element -&gt; <code>createElement()</code>, 以及决定Element是否需要更新 -&gt; <code>canUpdate(Widget oldWidget, Widget newWidget)</code>.<br>
-Flutter Framework通过diff算法比对Widget树变化，然后决定Element的State改变。Rebuild后的Widget树，如果对比未发生改变， 则Element不会触发重绘，这就意味着Widget树的重建并不会直接导致Element树重建。</p>
-<h4 id="第二颗element">第二颗Element🌲</h4>
-<pre><code class="language-dart">/// An instantiation of a [Widget] at a particular location in the tree.
-abstract class Element extends DiagnosticableTree implements BuildContext {
-...
-  /// The configuration for this element.
-  @override
-  Widget get widget =&gt; _widget;
-  Widget _widget;
-  
-  /// The render object at (or below) this location in the tree.
-  RenderObject get renderObject {
-    ...
-  }
-...
-}
-</code></pre>
-<p>Element源码注释： <code>An instantiation of a [Widget] at a particular location in the tree.</code><br>
-Element表示Widget配置树特定位置的一个实例。持有Widget和RenderObject,负责组织管理Widget配置和RenderObject渲染。<br>
-可以理解为Android和IOS的View树，但是不同的是Element状态一般由Flutter Framework管理， 开发者只需负责更改Widget即可。</p>
-<h4 id="第三颗renderobject">第三颗RenderObject🌲</h4>
-<pre><code class="language-dart">/// An object in the render tree.
-abstract class RenderObject extends AbstractNode with DiagnosticableTreeMixin implements HitTestTarget {
-  ...
-  @protected
-  void performResize();
 
-  @protected
-  void performLayout();
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113536496-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  void paint(PaintingContext context, Offset offset);
-  ...
-</code></pre>
-<p>RenderObject源码注释：  <code>An object in the render tree.</code><br>
-RenderObject表示为渲染树的一个对象<br>
-顾名思义，RenderObject负责真正的渲染工作，需要自己定义绘制的话就要从此处切入, 测量大小 <code>performResize</code>，定位位置 <code>performLayout</code>， 绘制 <code>paint</code>都由RenderObject完成。</p>
-<h4 id="总结">总结</h4>
-<p>Widget为配置树， Element为UI控制树，RenderObject为绘制树。开发者组合Widget配置，Framework通过比对Widget配置来创新或更新Element，最后调度RenderObject渲染树进行上屏绘制。</p>
-<h2 id="widget-种类">Widget 种类</h2>
-<p>Widget本身通常由许多更小的、单一用途widget组成，这些widget结合起来产生强大的效果。例如，Container是一个常用的Widget， 由多个Widget组成，这些widget负责布局、绘制、定位和调整大小。具体来说，Container由 LimitedBox、 ConstrainedBox、 Align、 Padding、 DecoratedBox、 和Transform组成。 您可以用各种方式组合这些以及其他简单的Widget，而不是继承容器。</p>
-<p>类层次结构很浅且很宽，可以最大限度地增加可能的组合数量。<br>
-<img src="https://wx1.sinaimg.cn/mw690/006292TQly1g48yigwyf5j315u0nwq58.jpg" alt=""></p>
-<h3 id="stateless-widget">Stateless Widget</h3>
-<p>无状态Widget, 使用于不需要维护状态的场景，即创建后不可修改配置数据。</p>
-<pre><code class="language-dart">abstract class StatelessWidget extends Widget {
-  const StatelessWidget({ Key key }) : super(key: key);
+  gtag('config', 'UA-113536496-1');
+</script>
 
-  @override
-  StatelessElement createElement() =&gt; StatelessElement(this);
-  
-  @protected
-  Widget build(BuildContext context);
-}
-</code></pre>
-<p>对应StatelessElement， 其中BuildContext即为对应的Element实例。</p>
-<h3 id="statefulwidget">StatefulWidget</h3>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g48yigw7ebj30zk0i4abe.jpg" alt="-w640"></p>
-<p>有状态widget, 通过setState(), 可以触发rebuild Widget, 从而刷新界面。<br>
-适用于数据改变需要刷新界面的场景。</p>
-<pre><code class="language-dart">abstract class StatefulWidget extends Widget {
-  const StatefulWidget({ Key key }) : super(key: key);
 
-  @override
-  StatefulElement createElement() =&gt; new StatefulElement(this);
+</head>
+<body class="home blog ct-body standard">
+<div id="overflow-container" class="overflow-container">
+  <a class="skip-content" href="#main">Skip to content</a>
+  <header id="site-header" class="site-header" role="banner">
+    <div class='top-navigation top-navigation-important'>
+        <div class='container'>
+            <div id="menu-secondary" class="menu-container menu-secondary" role="navigation">
+                <button id="toggle-secondary-navigation" class="toggle-secondary-navigation"><i class="fa fa-plus"></i></button>
+                <div class="menu">
+                    <ul id="menu-secondary-items" class="menu-secondary-items">
+                        
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://songhanghang.github.io/tag/mGh23E4z4">Flutter</a>
+                        </li>
+                            
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://songhanghang.github.io/tag/YaO8HL_it">Android</a>
+                        </li>
+                            
+                        
+                    </ul>
+                </div>
+            </div>
+            <ul class="social-media-icons">
+                
+                    
+                        <li>
+                            <a href="https://github.com/songhanghang" data-animate-hover="pulse" class="github" target="_blank">
+                                <i class="fab fa-github" title="github"></i>
+                                <span class="screen-reader-text">github</span>
+                            </a>
+                        </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </div>
+    </div>
 
-  @protected
-  State createState();
-}
+    <div class="container">
+        <div id="title-info" class="title-info">
+            <div id='site-title' class='site-title'>
+                <a href="https://songhanghang.github.io">  宋航 </a>
+            </div>
+        </div>
+        <button id="toggle-navigation" class="toggle-navigation">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div id="menu-primary-tracks" class="menu-primary-tracks"></div>
+        <div id="menu-primary" class="menu-container menu-primary" role="navigation">
+            <p class="site-description">相信美好的事情即将发生</p>
+            <div class="menu">
+                <ul id="menu-primary-items" class="menu-primary-items">
+                     
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="/">首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="/archives">归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="/tags">标签</a>
+                            </li>
+                        
+                    
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="/post/about">关于</a>
+                            </li>
+                        
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
 
-class StatefulElement extends ComponentElement {
-  StatefulElement(StatefulWidget widget)
-      : _state = widget.createState(),
-        super(widget) {
-       }());
-    assert(_state._element == null);
-    _state._element = this;
-    assert(_state._widget == null);
-    _state._widget = widget;
-    assert(_state._debugLifecycleState == _StateLifecycle.created);
-  }
-}
 
-</code></pre>
-<p>对应StatefulElement， State在StatefulElement初始化时创建， State和StatefulElement相互持有，意味着State不会随着StatefulWidget重建, State持有StatefulWidget.</p>
-<pre><code class="language-dart">class _PageWidgetState extends State&lt;_PageWidget&gt; {
-  final GlobalKey&lt;RefreshIndicatorState&gt; _refreshIndicatorKey =
-      GlobalKey&lt;RefreshIndicatorState&gt;();
+</header>
 
-  @override
-  void initState() {
-    super.initState();
-    _refreshData();
-  }
 
-  Future _refreshData() async {
-    Response response = await widget.page._request();
-    setState(() {});
-    return response;
-  }
+  <div id="main" class="main" role="main">
+    <div id="loop-container" class="loop-container">
+      <div class="post type-post status-publish format-standard has-post-thumbnail hentry category-design tag-design tag-standard-2 tag-tagalicious tag-travel entry full-without-featured odd excerpt-1">
+        
 
-  @override
-  Widget build(BuildContext context) {
-    return RefreshIndicator(
-      key: _refreshIndicatorKey,
-      onRefresh: _refreshData,
-    
-      ...
-    );
-  }
-</code></pre>
-<p>State通过setState(), 触发Rebuild.</p>
-<h2 id="依赖管理">依赖管理</h2>
-<p>使用pubspec.yaml管理依赖，类似于Android Gradle, IOS Cocoapods.<br>
-<strong>eg:</strong></p>
-<pre><code>name: flutter_in_action
-description: First Flutter application.
-
-version: 1.0.0+1
-
-dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^0.1.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-flutter:
-  uses-material-design: true
-</code></pre>
-<h2 id="资源管理">资源管理</h2>
-<p>Flutter应用程序可以包含代码和 assets（有时称为资源）。assets是会打包到程序安装包中的，可在运行时访问。常见类型的assets包括静态数据（例如JSON文件）、配置文件、图标和图片（JPEG，WebP，GIF，动画WebP / GIF，PNG，BMP和WBMP）等。<br>
-Flutter也使用pubspec.yaml文件来管理应用程序所需的资源</p>
-<pre><code>  flutter:
-  assets:
-    - assets/my_icon.png
-    - assets/background.png
-</code></pre>
-<h2 id="开发工具">开发工具</h2>
-<p>工欲善其事必先利其器<br>
-环境配置略过...</p>
-<h3 id="ide插件">IDE插件</h3>
-<p>Flutter提供Android Studio和VS Code插件，这里只看Android Studio. 需下载flutter和dart插件, 安装后如图<br>
-<img src="https://wx2.sinaimg.cn/mw1024/006292TQly1g48yih40xgj30u00ym1kx.jpg" alt="-w1148"></p>
-<h3 id="code打开">Code打开</h3>
-<p>还有一些工具需要通过代码打开。</p>
-<pre><code class="language-dart">void main() {
-    debugPaintSizeEnabled = true; // 显示文字基准线
-    debugPaintPointersEnabled = true; // 突出点击对象
-    debugPaintLayerBordersEnabled = true; // 显示层级边界
-    debugRepaintRainbowEnabled = true; // 显示重绘
-    runApp(MyApp());
-}
-</code></pre>
-<h3 id="一些有意思的工具">一些有意思的工具</h3>
-<h4 id="select-widget-mode">Select Widget Mode</h4>
-<p>滑动时显示触摸区域对应的Widget类型。</p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g491cv5nf9g30a80fl7wl.gif" alt=""></p>
-<h4 id="refresh-widget-info">Refresh Widget Info</h4>
-<p>刷新 rebuild widget。</p>
-<h4 id="show-performance-overlay">Show Performance Overlay</h4>
-<p>显示每帧GPU绘制时间，和UI绘制时间，分别显示单帧最大绘制时间和平均绘制时间，debug模式JIT边解释边执行导致UI不能跑慢60帧每秒。</p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g491nqk44og30ah0ilqv8.gif" alt=""></p>
-<h4 id="toggle-platform">Toggle Platform</h4>
-<p>切换Android和IOS平台, 注意不只是TitleBar显示效果不同，转场动画也不相同。</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g4920glkqhg309r0hbe84.gif" alt=""></p>
-<p><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g4920i5z51g30a40hykjo.gif" alt=""></p>
-<h4 id="show-debug-paint">Show Debug Paint</h4>
-<p>显示View边框</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g492agwkb1j30am0ixqbm.jpg" alt=""></p>
-<h4 id="show-paint-baselines">Show Paint Baselines</h4>
-<p>显示Text基准线</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g492cebm1pj30am0ixagj.jpg" alt=""></p>
-<h4 id="debugpaintpointersenabled">debugPaintPointersEnabled</h4>
-<p>显示突出对象</p>
-<p><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g492kv7r98j30am0ix43o.jpg" alt=""></p>
-<h4 id="debugpaintlayerbordersenabled">debugPaintLayerBordersEnabled</h4>
-<p>显示层级边界</p>
-<p><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g492n56azoj30am0ixn3a.jpg" alt=""></p>
-<h4 id="debugrepaintrainbowenabled">debugRepaintRainbowEnabled</h4>
-<p>显示重绘</p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g492qil7dwg30a40hy7wj.gif" alt=""></p>
-<h2 id="开源库支持">开源库支持</h2>
-<p><a href="https://pub.dev/flutter">https://pub.dev/flutter</a><br>
-<img src="https://wx1.sinaimg.cn/mw690/006292TQly1g4c115fuhaj30u01144ky.jpg" alt=""><br>
-Flutter已有很多高质量的开源库，涵盖常用的网络请求，数据库，图片处理，图片选择器，地图，支付，WebView ，路由，shared_preferences等等。各大厂也在积极的推进Flutter, 相信未来Flutter开发会更简单和快速。</p>
-<h2 id="总结-2">总结</h2>
-<pre><code>Makes it easy and fast to build beautiful mobile apps
-for iOS and Android.
-</code></pre>
-<p>Fultter开发很像是积木游戏，功能丰富的组件，能让你简单快速的搭建漂亮且高性能的App。现在各大厂都有Flutter尝试，闲鱼已经在生产环境玩很久，华为的鸿蒙系统更是直接集成了Flutter环境，燎原之势已起。</p>
-<p>后续Flutter如果能顺利推进Web, MacOS, Linux, Window支持，相信一门语言走天下的那一天就要来了...</p>
-<h2 id="demo-新闻客户端">DEMO 新闻客户端</h2>
-<p><a href="https://github.com/songhanghang/flutter_news_demo"><strong>https://github.com/songhanghang/flutter_news_demo</strong></a></p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g3v1ygaisdg30dc0np1l0.gif" alt="gif"></p>
-<p>源码：</p>
-<pre><code class="language-dart">import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-
-Dio dio = Dio();
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ScrollableTabsDemo(),
-    );
-  }
-}
-
-class _Page {
-  _Page({this.text, this.key})
-      : this.url = &quot;https://3g.163.com/touch/reconstruct/article/list/$key/0-20.html&quot;;
-  final String text;
-  final String key;
-  final String url;
-  final List&lt;_News&gt; list = List();
-
-  Future _request() async {
-    Response response = await dio.get(url);
-    String value = response.toString();
-    value = value.substring(9, value.length - 1);
-    Map&lt;String, dynamic&gt; map = json.decode(value);
-    List data = map[key];
-    list.clear();
-    data.forEach((value) {
-      list.add(_News.fromJson(value));
-    });
-    return response;
-  }
-}
-
-class _News {
-  final String title;
-  final String url;
-  final String skpUrl;
-  final String image;
-  final String digest;
-  final String time;
-
-  _News.fromJson(Map&lt;String, dynamic&gt; json)
-      : title = json[&quot;title&quot;],
-        url = json[&quot;url&quot;],
-        skpUrl = json[&quot;skipURL&quot;],
-        image = json[&quot;imgsrc&quot;],
-        digest = json[&quot;digest&quot;],
-        time = json[&quot;ptime&quot;];
-}
-
-List&lt;_Page&gt; _allPages = &lt;_Page&gt;[
-  _Page(text: '新闻', key: &quot;BBM54PGAwangning&quot;),
-  _Page(text: '娱乐', key: &quot;BA10TA81wangning&quot;),
-  _Page(text: '体育', key: &quot;BA8E6OEOwangning&quot;),
-  _Page(text: '财经', key: &quot;BA8EE5GMwangning&quot;),
-  _Page(text: '军事', key: &quot;BAI67OGGwangning&quot;),
-  _Page(text: '科技', key: &quot;BA8D4A3Rwangning&quot;),
-  _Page(text: '手机', key: &quot;BAI6I0O5wangning&quot;),
-  _Page(text: '数码', key: &quot;BAI6JOD9wangning&quot;),
-  _Page(text: '时尚', key: &quot;BA8F6ICNwangning&quot;),
-  _Page(text: '游戏', key: &quot;BAI6RHDKwangning&quot;),
-  _Page(text: '教育', key: &quot;BA8FF5PRwangning&quot;),
-  _Page(text: '健康', key: &quot;BDC4QSV3wangning&quot;),
-  _Page(text: '旅游', key: &quot;BEO4GINLwangning&quot;),
-];
-
-class ScrollableTabsDemo extends StatefulWidget {
-  @override
-  _ScrollableTabsState createState() =&gt; _ScrollableTabsState();
-}
-
-class _ScrollableTabsState extends State&lt;ScrollableTabsDemo&gt;
-    with SingleTickerProviderStateMixin {
-  TabController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TabController(vsync: this, length: _allPages.length);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Decoration _getIndicator() {
-    return ShapeDecoration(
-      shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            side: BorderSide(color: Colors.white70, width: 1.5),
-          ) +
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            side: BorderSide(color: Colors.transparent, width: 8.0),
-          ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return &lt;Widget&gt;[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              child: SliverAppBar(
-                title: const Text('News'),
-                pinned: false,
-                backgroundColor: Colors.red,
-                forceElevated: innerBoxIsScrolled,
-                bottom: TabBar(
-                  controller: _controller,
-                  isScrollable: true,
-                  labelColor: Colors.white,
-                  indicator: _getIndicator(),
-                  tabs: _allPages.map&lt;Tab&gt;((_Page page) {
-                    return Tab(text: page.text);
-                  }).toList(),
-                ),
-              ),
-            ),
-          ];
-        },
-        body: TabBarView(
-          controller: _controller,
-          children: _allPages.map&lt;Widget&gt;((_Page page) {
-            return SafeArea(
-              top: false,
-              bottom: true,
-              child: _PageWidget(page),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class _PageWidget extends StatefulWidget {
-  const _PageWidget(this.page, {Key key}) : super(key: key);
-  final _Page page;
-
-  @override
-  State&lt;StatefulWidget&gt; createState() {
-    return _PageWidgetState();
-  }
-}
-
-class _PageWidgetState extends State&lt;_PageWidget&gt; {
-  final GlobalKey&lt;RefreshIndicatorState&gt; _refreshIndicatorKey =
-      GlobalKey&lt;RefreshIndicatorState&gt;();
-
-  @override
-  void initState() {
-    super.initState();
-    _refreshData();
-  }
-
-  Future _refreshData() async {
-    Response response = await widget.page._request();
-    setState(() {});
-    return response;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RefreshIndicator(
-      key: _refreshIndicatorKey,
-      onRefresh: _refreshData,
-      child: Scrollbar(
-        child: ListView.builder(
-          padding: kMaterialListPadding,
-          itemCount: widget.page.list.length,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  String url = widget.page.list[index].url;
-                  if (!url.startsWith(&quot;http&quot;)) {
-                    url = widget.page.list[index].skpUrl;
-                  }
-                  return WebviewScaffold(
-                      appBar: AppBar(title: Text(&quot;详情&quot;), backgroundColor: Colors.red),
-                      url: url);
-                }));
-              },
-              child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    children: &lt;Widget&gt;[
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3.0),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black54,
-                                  offset: Offset(2.0, 2.0),
-                                  blurRadius: 4.0)
-                            ]),
-                        child: Image.network(
-                          widget.page.list[index].image,
-                          width: 140,
-                          height: 80,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Wrap(
-                                    children: &lt;Widget&gt;[
-                                      Text(widget.page.list[index].title),
-                                      Text(
-                                        widget.page.list[index].digest,
-                                        style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 10.0),
-                                      ),
-                                      Text(
-                                        widget.page.list[index].time,
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 8.0),
-                                      )
-                                    ],
-                                  ))))
-                    ],
-                  )),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Redcord 连接你我]]></title>
-        <id>https://songhanghang.github.io/post/redcord-lian-jie-ni-wo</id>
-        <link href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
-        </link>
-        <updated>2019-06-06T11:59:33.000Z</updated>
-        <content type="html"><![CDATA[ <!-- more -->
-<blockquote>
-<p>红绳-连接你我<br>
-<a href="https://github.com/songhanghang/redcord">https://github.com/songhanghang/redcord</a></p>
-</blockquote>
-<p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
-<p>如果你和家人都是iphone用户，可以开启<a href="https://support.apple.com/zh-cn/HT201087">家人位置共享</a>，这样可以随时随地查看Ta在什么位置。</p>
-<p>Android现在并没有很好的解决方案，强大如微信也必须手动开启位置共享，当然微信不做是有他的道理...</p>
-<p>但是我确实有这样的需求，我的TA只要一出门，那是永远联系不上的, 嗯！确实有必要&quot;偷偷&quot;给她定位！于是乎，手撕了这个程序...</p>
-<p>先梳理下有哪些需求：</p>
-<ol>
-<li>需要定位</li>
-<li>需要把定位信息同步给我</li>
-<li>需要程序一直活着</li>
-</ol>
-<p>定位问题高德地图SDK解决，同步问题leancloud解决，怎么才能一直活着，这是个头疼的问题，微信可以被各大手机厂商白名单呵护着, 但是一般App不可能有这个待遇。</p>
-<p>业内能人志士为了保活使出各种奇淫技巧，例如：</p>
-<ol>
-<li>双进程互调</li>
-<li>可见前台进程</li>
-<li>一个可见像素点Activity</li>
-<li>应用联盟(流氓联盟)，通过不同的App发广播互调</li>
-<li>利用Android系统漏洞<br>
-总之黑白手段都有，但是活的都不光彩，程序还是要漂亮的活着！</li>
-</ol>
-<p>于是乎想到了Android的动态壁纸，这玩意好，壁纸是脸面，系统要脸，就不能让它死，死了也要主动拉起来!</p>
-<p>那么做个好看的动态壁纸，通过壁纸定位和同步信息就可以解决这个问题.</p>
-<p>Coding....</p>
-<p>emmmmm....</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g25r4ipgbkg30bd0om4qr.gif" alt="图片"></p>
-<h3 id="下载">下载</h3>
-<p><img src="https://wx4.sinaimg.cn/mw690/006292TQly1g3ac6bxnz9j30440440b9.jpg" alt="图片"></p>
-<p><a href="https://www.coolapk.com/apk/com.song.redcord">https://www.coolapk.com/apk/com.song.redcord</a></p>
-<h3 id="软件功能介绍">软件功能介绍</h3>
-<h4 id="注册与登录">注册与登录</h4>
-<p>注册不需要手机号,不需要邮箱（不会上传你的隐私），直接点击注册即可，注册成功后会生成你的ID, 显示在屏幕的左上角，这是你以后登录的唯一凭证（注意保密），注册成功后，需要配对TA的ID, 才能使用，也可以发送自己ID给Ta, 让对方完成配对。配对完成请及时在详情页备份两人Id。<br>
-你与Ta的ID唯一绑定，绑定后不可解绑，或者与他人绑定。</p>
-<h4 id="主界面">主界面</h4>
-<p>App地图界面，左上角显示两人ID, 中间为彼此位置及驾车导航路线，信息框显示Ta的位置信息，提供一些常用功能:</p>
-<ol>
-<li>见Ta       <code>一键导航见Ta，高德，百度地图</code></li>
-<li>设置壁纸</li>
-<li>备份       <code>备份两人ID, 以便换手机，或者清空缓存找回</code></li>
-<li>打赏       <code>用的leancloud的服务，免费的访问量很少，很期望您的支持</code></li>
-<li>关于       <code>指向这篇ReadMe</code></li>
-</ol>
-<h4 id="动态壁纸">动态壁纸</h4>
-<p>这是个魔性的壁纸，屏幕上一根红绳在不停扭动，线的两端连着两个圆，象征着彼此，中间显示着实时位置距离，背景色随着扭动渐变，触摸屏幕动画随手而动，早上，下午，晚上三组颜色自动切换。</p>
-<h4 id="其他">其他</h4>
-<ol>
-<li>耗电   <code>主界面:10s定位一次，退出后不再定位;动态壁纸:可见时30s定位一次，不可见不定位。所以不用担心耗电问题</code></li>
-<li>用户隐私 <code>没有上传你任何其他信息，自行查看代码</code></li>
-<li>数据服务 <code>用的leancloud提供数据支持，每天只有3万次免费请求，所以急需您的支持</code></li>
-<li>Bug <code>小米手机上完成的开发测试，其他机器有问题，欢迎反馈</code></li>
-</ol>
-<h3 id="联系方式">联系方式</h3>
-<p>邮箱: 1131442853@qq.com</p>
-<p><a href="https://github.com/songhanghang">github: https://github.com/songhanghang</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MakeFile指南]]></title>
-        <id>https://songhanghang.github.io/post/makefile-zhi-nan</id>
-        <link href="https://songhanghang.github.io/post/makefile-zhi-nan">
-        </link>
-        <updated>2018-07-01T12:13:27.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
+        <div class="entry-meta">
+          <span class="date">· 2018-07-01 ·</span> <span> / </span>
+          <span class="author">
+            <a href="https://songhanghang.github.io" title="" rel="author"> Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></a>
+          </span>
+          
+        </div>
+        <div class='entry-header'>
+          <h1 class='entry-title'>MakeFile指南</h1>
+        </div>
+        <div class="entry-container">
+          <div class="entry-content">
+            <article>
+              <!-- more -->
 <blockquote>
 <p>参考:</p>
 <p>GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://www.gnu.org/software/make/manual/make.html</a></p>
@@ -1324,75 +846,151 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
 <p>膜拜先辈！！！<br>
 本文按 <code>代码 + 注释</code> 的思路重新整理，剔除一些章节和解释，加入一些自己的理解，如有错误，欢迎指正。</p>
 <!-- 排版 MIUI-THEME-宋航 -->
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Goaway 远离手机]]></title>
-        <id>https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji</id>
-        <link href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">
-        </link>
-        <updated>2018-04-05T12:09:18.000Z</updated>
-        <content type="html"><![CDATA[<p><img src="https://wx4.sinaimg.cn/mw690/006292TQgy1fp2xd16zz6j30pm0iedn4.jpg" alt="预览图"></p>
-<h1 id="软件介绍">软件介绍</h1>
-<p>这是一款有意思的防沉迷应用...</p>
-<p>时刻提醒消耗在手机上的时间，</p>
-<p>点亮关闭间帮你记录时间，</p>
-<p>底部tips告知你当前状态，</p>
-<p>五彩壁纸随着使用时间逐渐变化，</p>
-<p>长按显示各个app的使用排名，</p>
-<p>时刻警示你放下手机！</p>
-<h1 id="20-下载">2.0 下载</h1>
-<p><a href="https://www.coolapk.com/apk/226765">点这Download https://www.coolapk.com/apk/226765</a></p>
-<h1 id="注意事项">注意事项</h1>
-<ol>
-<li>适配用的是miui，其他手机欢迎反馈...</li>
-<li>miui为省电优化，后台默认会冻结一些能力，所以需要手动打开，<code>进入 设置-&gt;电量和性能-&gt;省电优化-&gt;应用智能省电-&gt;远离手机（该app）-&gt;点击进入后台配置-&gt;无限制</code> （该app功能简单，刷新频率低，不会耗电，欢迎监督）</li>
-</ol>
-<h1 id="20-更新说明">2.0 更新说明</h1>
-<ul>
-<li>20180311 version 3</li>
-</ul>
-<ol>
-<li>全新首页</li>
-<li>更新默认颜色及文案</li>
-<li>支持全部app的使用排名展示</li>
-</ol>
-<ul>
-<li>20180305 version 2</li>
-</ul>
-<ol>
-<li>支持自定义提示及显示位置</li>
-<li>支持自定义 Material design 背景颜色</li>
-<li>支持长按壁纸显示各个app使用排名</li>
-</ol>
-<ul>
-<li>20180302 version 1</li>
-</ul>
-<ol>
-<li>适配小米全面屏手机</li>
-<li>适配虚拟键手机</li>
-<li>fix 重启手机无法显示时间提示</li>
-</ol>
-<h1 id="开源声明">开源声明</h1>
-<p><a href="https://github.com/songhanghang/goaway">github: https://github.com/songhanghang/goaway </a><br>
-感谢<a href="https://github.com/LeeReindeer">LeeReindeer同学贡献</a><br>
-该app无任何恶意行为，代码在此开源，欢迎监督。<br>
-如有二次开发，望加上出处，不胜感谢！</p>
-<h1 id="起因">起因</h1>
-<p>低头不见抬头见，</p>
-<p>有了手机，</p>
-<p>永不相见...</p>
-<p>各种app蚕食时间，</p>
-<p>不知不觉间，</p>
-<p>手机又没电...</p>
-<p>我想量化时间！</p>
-<p>为何手机不能有防沉迷设置？</p>
-<p>于是有了这个app...</p>
-<h1 id="联系方式">联系方式</h1>
-<p><a href="http://songhang.club">我的博客： songhang.club</a></p>
-<p>邮箱: 1131442853@qq.com</p>
-<p><a href="https://github.com/songhanghang">github: https://github.com/songhanghang</a><br>
-<a href="https://github.com/LeeReindeer">LeeReindeer: https://github.com/LeeReindeer</a></p>
-]]></content>
-    </entry>
-</feed>
+
+            </article>
+          </div>
+          <div class='entry-meta-bottom'>
+            <div class="entry-categories">
+              <p>
+                <span>Categories</span>
+                
+                  
+                    
+                  <a href="https://songhanghang.github.io/tag/mGh23E4z4" title="View all posts in Flutter">Flutter</a>
+                    
+                    
+                    
+                  <a href="https://songhanghang.github.io/tag/YaO8HL_it" title="View all posts in Android">Android</a>
+                    
+                    
+              </p>
+            </div>
+            <div class="entry-tags">
+              <p><span>Tags</span>
+              </p>
+            </div>
+          </div>
+          <div class="author-meta">
+            <div class="author">
+              <img alt='' src="https://songhanghang.github.io/images/avatar.png?v=1565266482077" class='avatar avatar-72 photo' height='72' width='72'>
+              <span>WRITTEN BY: &nbsp;&nbsp;&nbsp;<a href='https://songhanghang.github.io'>宋航</a> </span>
+            </div>
+            <div class="bio">
+              <p>相信美好的事情即将发生</p>
+              
+                
+                  <a class="github" target="_blank"
+                     href="https://github.com/songhanghang">
+                    <i class="fab fa-github" title="github"></i>
+                  </a>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </div>
+          </div>
+        </div>
+          
+            <nav class="navigation pagination" role="navigation">
+              <h2 class="screen-reader-text">Posts navigation</h2>
+              <div class="nav-links">
+                <a class="next page-numbers" href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">下一篇->Goaway 远离手机</a>
+              </div>
+            </nav>
+          
+      </div>
+      <section id="comments" class="comments">
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '8f78ac631199b9967f3a',
+    clientSecret: '42ce86c64dc5a3e7133c2c15ac50fd947c0210ba',
+    repo: 'songhanghang.github.io',
+    owner: 'songhanghang',
+    admin: ['songhanghang'],
+    id: location.pathname,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+      </section>
+    </div>
+  </div>
+  <footer id="site-footer" class="site-footer" role="contentinfo">
+    <h1>
+        <a href="https://songhanghang.github.io"> 宋航 </a>
+    </h1>
+    <p class="site-description">相信美好的事情即将发生</p>
+    <div id="menu-footer" class="menu-container menu-footer" role="navigation">
+        <div class="menu">
+            <ul id="menu-footer-items" class="menu-footer-items">
+            </ul>
+        </div>
+    </div>
+    <ul class="social-media-icons">
+        
+            
+                <li>
+                    <a href="https://github.com/songhanghang" data-animate-hover="pulse" class="github" target="_blank">
+                        <i class="fab fa-github" title="github"></i>
+                        <span class="screen-reader-text">github</span>
+                    </a>
+                </li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <div class="design-credit">
+        <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></p>
+    </div>
+</footer>
+<script>
+    hljs.initHighlightingOnLoad()
+</script>
+<script src="https://songhanghang.github.io/media/scripts/lib/jquery.min.js"></script>
+<script src="https://songhanghang.github.io/media/scripts/lib/jquerymigrate.js"></script>
+<script src="https://songhanghang.github.io/media/scripts/lib/production.min.js"></script>
+
+</div>
+</body>
+</html>
+
