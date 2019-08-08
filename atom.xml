@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-08T12:14:44.741Z</updated>
+    <updated>2019-08-08T12:17:31.152Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -1393,6 +1393,142 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
 <p>邮箱: 1131442853@qq.com</p>
 <p><a href="https://github.com/songhanghang">github: https://github.com/songhanghang</a><br>
 <a href="https://github.com/LeeReindeer">LeeReindeer: https://github.com/LeeReindeer</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何保证ImageView.setImageResource()传入.9图片时展示正常？]]></title>
+        <id>https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang</id>
+        <link href="https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang">
+        </link>
+        <updated>2017-08-09T12:14:53.000Z</updated>
+        <content type="html"><![CDATA[<!-- more -->
+<blockquote>
+<p>ImageView占位图可以通过backgroud设置.9图片实现，但是在src设置成带透明alpha图片时会透视显示背景，所以用src实现占位图更合理，但是scaleType的裁剪方式同样会影响到作为src的.9图片,这将会导致.9图片不能按照预期展示占位图</p>
+</blockquote>
+<h2 id="现象">现象</h2>
+<ul>
+<li>
+<p>ic_launcher.9.png<br>
+<img src="http://imglf0.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVDl6Q0RsWVdKcGlGMWNnQThGbU90OS8wSFAzd1NUWDVBPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=".9图片"></p>
+</li>
+<li>
+<p>deafault&amp;centerCrop 同样裁剪中间显示</p>
+</li>
+</ul>
+<pre><code class="language-&lt;ImageView">        android:layout_width=&quot;200dp&quot;
+        android:layout_height=&quot;200dp&quot;
+        android:src=&quot;@drawable/ic_launcher&quot; /&gt;
+</code></pre>
+<pre><code class="language-&lt;ImageView">        android:layout_width=&quot;200dp&quot;
+        android:layout_height=&quot;200dp&quot;
+        android:scaleType=&quot;centerCrop&quot;
+        android:src=&quot;@drawable/ic_launcher&quot; /&gt;
+</code></pre>
+<p><img src="http://imglf1.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVmloSGNFZldDOUcvMTcyeW5DUTlWS1IvREJyTGc1cWNnPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="默认"></p>
+<ul>
+<li>fitXy显示如预期</li>
+</ul>
+<pre><code>    &lt;ImageView
+        android:layout_width=&quot;200dp&quot;
+        android:layout_height=&quot;200dp&quot;
+        android:scaleType=&quot;fitXY&quot;
+        android:src=&quot;@drawable/ic_launcher&quot; /&gt;
+
+</code></pre>
+<p><img src="http://imglf2.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVFo5eTJUZTdmTDY4U2VWb3FUTVNCUUV4MXg0L216Ykx3PT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="fitxy"></p>
+<h2 id="问题分析-read-the-fucking-source-code">问题分析 (read the fucking source code)</h2>
+<ol>
+<li>mScaleType怎么参与图片裁剪逻辑？</li>
+<li>图片裁剪在什么时机执行？</li>
+<li>如何干预裁剪方式？</li>
+</ol>
+<p>第一个问题很简单ImageView.configureBounds(), 根据不同的case提供不同的换算策略，但是google用private告诉你，小子这不给你改！！！</p>
+<pre><code>    private void configureBounds() {
+          
+            ...
+        
+            if (ScaleType.MATRIX == mScaleType) {
+                // Use the specified matrix as-is.
+                if (mMatrix.isIdentity()) {
+                    mDrawMatrix = null;
+                } else {
+                    mDrawMatrix = mMatrix;
+                }
+            } else if (fits) {
+                // The bitmap fits exactly, no transform needed.
+                mDrawMatrix = null;
+            } else if (ScaleType.CENTER == mScaleType) {
+                // Center bitmap in view, no scaling.
+                mDrawMatrix = mMatrix;
+                mDrawMatrix.setTranslate(Math.round((vwidth - dwidth) * 0.5f),
+                                         Math.round((vheight - dheight) * 0.5f));
+            } else if (ScaleType.CENTER_CROP == mScaleType) {   
+            ...
+            } else if (ScaleType.CENTER_INSIDE == mScaleType) {
+            ...
+            } else {
+            ...
+            }
+        }
+    }
+</code></pre>
+<p>来看下第二个问题，configureBounds()都在哪调用？</p>
+<ol>
+<li>setImageMatrix(...)</li>
+<li>updateDrawable(...) &lt;-- setImageResource(...)</li>
+<li>setFrame(...)</li>
+</ol>
+<p>分析不难发现在绘制前这1，2两个方法并不会触发configureBounds(),所以问题指向3,setFrame的调用在View的layout(...)方法中</p>
+<pre><code>public void layout(int l, int t, int r, int b) {
+
+...
+        int oldL = mLeft;
+        int oldT = mTop;
+        int oldB = mBottom;
+        int oldR = mRight;
+
+        boolean changed = isLayoutModeOptical(mParent) ?
+                setOpticalFrame(l, t, r, b) : setFrame(l, t, r, b);
+
+...
+        mPrivateFlags &amp;= ~PFLAG_FORCE_LAYOUT;
+        mPrivateFlags3 |= PFLAG3_IS_LAID_OUT;
+    }
+</code></pre>
+<p>至此一和二两个问题解开迷雾，梳理下调用流程(-&gt; 下一个方法 --&gt; 方法内调用)</p>
+<p>view-&gt;measure-&gt;layout--&gt;setFrame--&gt;configureBounds()-&gt;draw</p>
+<p>不难分析只有在layout和draw之间动刀才可以干预裁剪方式，layout和setFrame都可以切入，根据最小作用域原则，更适合在setFrame处理.</p>
+<h2 id="解决办法">解决办法</h2>
+<p>自定义ImageView重写setFrame()如下</p>
+<pre><code>public class NinePatchIamgeView extends ImageView {
+
+    public NinePatchIamgeView(Context context) {
+        super(context);
+    }
+
+    public NinePatchIamgeView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public NinePatchIamgeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected boolean setFrame(int l, int t, int r, int b) {
+        // 当前ScaleType
+        ScaleType curScaleType = getScaleType();
+        // .9图片裁剪前设置临时类型ScaleType.FIT_XY
+        if (getDrawable() instanceof NinePatchDrawable) {
+            setScaleType(ScaleType.FIT_XY);
+        }
+        boolean changed = super.setFrame(l, t, r, b);
+        // 还原ScaleType
+        setScaleType(curScaleType);
+        return changed;
+    }
+}
+</code></pre>
 ]]></content>
     </entry>
 </feed>
