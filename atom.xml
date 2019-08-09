@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-08T13:11:53.917Z</updated>
+    <updated>2019-08-09T01:52:40.919Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -559,14 +559,13 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
         <link href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
         </link>
         <updated>2019-06-06T11:59:33.000Z</updated>
-        <summary type="html"><![CDATA[<p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
+        <summary type="html"><![CDATA[<meta name="referrer" content="no-referrer" />
+是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！]]></summary>
+        <content type="html"><![CDATA[<meta name="referrer" content="no-referrer" />
+是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！
 <!-- more -->
-<blockquote>
-<p>红绳-连接你我<br>
-<a href="https://github.com/songhanghang/redcord">https://github.com/songhanghang/redcord</a></p>
-</blockquote>
+>红绳-连接你我
+[https://github.com/songhanghang/redcord](https://github.com/songhanghang/redcord)
 <p>如果你和家人都是iphone用户，可以开启<a href="https://support.apple.com/zh-cn/HT201087">家人位置共享</a>，这样可以随时随地查看Ta在什么位置。</p>
 <p>Android现在并没有很好的解决方案，强大如微信也必须手动开启位置共享，当然微信不做是有他的道理...</p>
 <p>但是我确实有这样的需求，我的TA只要一出门，那是永远联系不上的, 嗯！确实有必要&quot;偷偷&quot;给她定位！于是乎，手撕了这个程序...</p>
