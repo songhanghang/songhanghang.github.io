@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-09T01:54:15.191Z</updated>
+    <updated>2019-08-09T01:59:10.848Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -626,8 +626,9 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
         </link>
         <updated>2018-07-01T12:13:27.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
-<p>参考:</p>
-<p>GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://www.gnu.org/software/make/manual/make.html</a></p>
+<p>参考:<br>
+GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://www.gnu.org/software/make/manual/make.html</a></p>
+<!-- more -->
 <p>Android.mk: <a href="https://developer.android.com/ndk/guides/android_mk.html?hl=zh-cn">https://developer.android.com/ndk/guides/android_mk.html?hl=zh-cn</a></p>
 <p>陈皓: <a href="https://seisman.github.io/how-to-write-makefile/">https://seisman.github.io/how-to-write-makefile/</a></p>
 <p>建议:<br>
