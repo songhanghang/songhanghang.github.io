@@ -1,111 +1,116 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Flutter初识 | 宋航</title>
-<meta name="description" content="相信美好的事情即将发生">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="相信美好的事情即将发生" />
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1565320762581">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1565320544138">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113536496-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-113536496-1');
+</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://songhanghang.github.io">
-        <img src="https://songhanghang.github.io/images/avatar.png?v=1565320544138" class="site-logo">
-        <h1 class="site-title">宋航</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://songhanghang.github.io">
+  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1565320762581" alt="">
+  </a>
+  <h1 class="site-title">
+    宋航
+  </h1>
+  <p class="site-description">
+    相信美好的事情即将发生
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
+        <a href="https://github.com/songhanghang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
       
-        
+    
       
-        
+    
       
-        
+    
       
-        
+    
       
-    </div>
-    <div class="site-description">
-      相信美好的事情即将发生
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://songhanghang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">Flutter初识</h2>
-            <div class="post-date">2019-07-29</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Flutter初识
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-07-29
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://songhanghang.github.io/tag/mGh23E4z4" class="post-tag">
+                  # Flutter
+                </a>
+              
+                <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
+                  # Android
+                </a>
+              
+            </div>
             
-              <div class="feature-container" style="background-image: url('https://songhanghang.github.io/post-images/hello-gridea.png')">
-              </div>
+              <img class="post-feature-image" src="https://songhanghang.github.io/post-images/hello-gridea.png" alt="">
             
-            <div class="post-content">
-              <meta name="referrer" content="no-referrer" />
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <meta name="referrer" content="no-referrer" />
 > 参考： 
 > [Flutter中文网: https://flutterchina.club](https://flutterchina.club/)
 > [Flutter实战: https://book.flutterchina.club](https://book.flutterchina.club/)
@@ -640,87 +645,165 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
 
 </code></pre>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#hybrid%E7%AE%80%E4%BB%8B">Hybrid简介</a>
+<ul>
+<li><a href="#h5-%E5%8E%9F%E7%94%9F">H5 + 原生</a></li>
+<li><a href="#js%E5%BC%80%E5%8F%91-%E5%8E%9F%E7%94%9F">JS开发 + 原生</a></li>
+<li><a href="#%E8%87%AA%E7%A0%94gui-%E5%8E%9F%E7%94%9F">自研GUI + 原生</a></li>
+</ul>
+</li>
+<li><a href="#flutter%E7%99%BB%E5%9C%BA">Flutter登场</a></li>
+<li><a href="#flutter%E6%80%9D%E6%83%B3">Flutter思想</a>
+<ul>
+<li><a href="#%E7%BB%84%E5%90%88-%E9%9B%86%E6%88%90">组合 &gt; 集成</a></li>
+<li><a href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B">响应式编程</a></li>
+</ul>
+</li>
+<li><a href="#flutter%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86">Flutter核心原理</a>
+<ul>
+<li><a href="#%E6%A1%86%E6%9E%B6%E5%88%86%E5%B1%82">框架分层</a></li>
+<li><a href="#%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B">渲染流程</a></li>
+<li><a href="#%E4%B8%89%E6%A3%B5%E7%A5%9E%E6%A0%91">三棵神树</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E9%A2%97widget">第一颗Widget🌲</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E9%A2%97element">第二颗Element🌲</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E9%A2%97renderobject">第三颗RenderObject🌲</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#widget-%E7%A7%8D%E7%B1%BB">Widget 种类</a>
+<ul>
+<li><a href="#stateless-widget">Stateless Widget</a></li>
+<li><a href="#statefulwidget">StatefulWidget</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86">依赖管理</a></li>
+<li><a href="#%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86">资源管理</a></li>
+<li><a href="#%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7">开发工具</a>
+<ul>
+<li><a href="#ide%E6%8F%92%E4%BB%B6">IDE插件</a></li>
+<li><a href="#code%E6%89%93%E5%BC%80">Code打开</a></li>
+<li><a href="#%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E5%B7%A5%E5%85%B7">一些有意思的工具</a>
+<ul>
+<li><a href="#select-widget-mode">Select Widget Mode</a></li>
+<li><a href="#refresh-widget-info">Refresh Widget Info</a></li>
+<li><a href="#show-performance-overlay">Show Performance Overlay</a></li>
+<li><a href="#toggle-platform">Toggle Platform</a></li>
+<li><a href="#show-debug-paint">Show Debug Paint</a></li>
+<li><a href="#show-paint-baselines">Show Paint Baselines</a></li>
+<li><a href="#debugpaintpointersenabled">debugPaintPointersEnabled</a></li>
+<li><a href="#debugpaintlayerbordersenabled">debugPaintLayerBordersEnabled</a></li>
+<li><a href="#debugrepaintrainbowenabled">debugRepaintRainbowEnabled</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%BC%80%E6%BA%90%E5%BA%93%E6%94%AF%E6%8C%81">开源库支持</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93-2">总结</a></li>
+<li><a href="#demo-%E6%96%B0%E9%97%BB%E5%AE%A2%E6%88%B7%E7%AB%AF">DEMO 新闻客户端</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://songhanghang.github.io/tag/mGh23E4z4" class="tag">
-                    Flutter
-                  </a>
-                
-                  <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="tag">
-                    Android
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
-                  <h3 class="post-title">
-                    Redcord 连接你我
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+          </article>
         </div>
-      </div>
-    </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
+              <h3 class="post-title">
+                Redcord 连接你我
+              </h3>
+            </a>
+          </div>
+        
 
-<script type="application/javascript">
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-AOS.init();
+<div id="gitalk-container"></div>
 
-hljs.initHighlightingOnLoad()
+<script>
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  var gitalk = new Gitalk({
+    clientID: '8f78ac631199b9967f3a',
+    clientSecret: '42ce86c64dc5a3e7133c2c15ac50fd947c0210ba',
+    repo: 'songhanghang.github.io',
+    owner: 'songhanghang',
+    admin: ['songhanghang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
 
 </script>
 
+          
 
+          
+        
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://songhanghang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-      var gitalk = new Gitalk({
-        clientID: '8f78ac631199b9967f3a',
-        clientSecret: '42ce86c64dc5a3e7133c2c15ac50fd947c0210ba',
-        repo: 'songhanghang.github.io',
-        owner: 'songhanghang',
-        admin: ['songhanghang'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
+<script>
+  hljs.initHighlightingOnLoad()
 
-      gitalk.render('gitalk-container')
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-    </script>
-  
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
 
-  
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
 
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
+</script>
 
-
+      </div>
+    </div>
   </body>
 </html>
