@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-13T02:48:49.451Z</updated>
+    <updated>2019-08-19T12:53:17.850Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -10,6 +10,82 @@
     <logo>https://songhanghang.github.io/images/avatar.png</logo>
     <icon>https://songhanghang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 宋航</rights>
+    <entry>
+        <title type="html"><![CDATA[Android Studio 9-Patch Bug Miss Alpha Channel]]></title>
+        <id>https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel</id>
+        <link href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel">
+        </link>
+        <updated>2019-08-19T12:20:16.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="问题">问题</h2>
+<p>用AS创建9 Patch图时，发现有些图片转换后失去alpha信息，无法编辑描边！</p>
+<blockquote>
+<p>res -&gt; drawale-xxhdpi -&gt;  target.png -&gt; 右键 Create 9-Patch File</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="问题">问题</h2>
+<p>用AS创建9 Patch图时，发现有些图片转换后失去alpha信息，无法编辑描边！</p>
+<blockquote>
+<p>res -&gt; drawale-xxhdpi -&gt;  target.png -&gt; 右键 Create 9-Patch File</p>
+</blockquote>
+<!-- more -->
+<h2 id="分析">分析</h2>
+<p>对比发现，</p>
+<ol>
+<li>转换后异常的.9图片为8-bit color 或者 24-bit color, 正常的.9图片均为32-bit color。</li>
+<li>如果原图为8-bit color 或者24-bit color , 转换后异常。但是原图为32-bit color 转换后也有可能异常。</li>
+</ol>
+<p>Google并未有很多反馈，仅有一篇类似问题<a href="https://stackoverflow.com/questions/25171838/9-patch-editor-android-studio-suddenly-black">https://stackoverflow.com/questions/25171838/9-patch-editor-android-studio-suddenly-black</a></p>
+<h3 id="png-8-24-32区别介绍">PNG-8、24、32区别介绍</h3>
+<p><a href="https://www.jianshu.com/p/31207790bad2">https://www.jianshu.com/p/31207790bad2</a></p>
+<h2 id="尝试解决">尝试解决</h2>
+<ol>
+<li>Sketch重新切图后，转换.9正常（未发现图片有什么不同）</li>
+<li>Sketch重新切图后，再压缩后，转换.9正常</li>
+<li>使用在线工具<a href="https://romannurik.github.io/AndroidAssetStudio/nine-patches.html#&amp;sourceDensity=320&amp;name=example">Simple nine-patch generator</a>转换8-bit color ,24-bit color ,32-bit color原图都能得到正常的.9图。</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>Android Studio 9-Patch 直接转换可能丢失位图信息，无法获取32-bit color .9文件。<br>
+推荐直接用<a href="https://romannurik.github.io/AndroidAssetStudio/nine-patches.html#&amp;sourceDensity=320&amp;name=example">Simple nine-patch generator</a>转换异常图片。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Android Studio 9-Patch Bug ]]></title>
+        <id>https://songhanghang.github.io/post/android-studio-9-patch-bug</id>
+        <link href="https://songhanghang.github.io/post/android-studio-9-patch-bug">
+        </link>
+        <updated>2019-08-19T12:20:16.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="问题">问题</h2>
+<p>用AS转换9 Patch图时，发现有些图片转换后失去alpha信息，无法编辑描边！</p>
+<blockquote>
+<p>res -&gt; drawale-xxhdpi -&gt;  target.png -&gt; 右键 Create 9-Patch File</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="问题">问题</h2>
+<p>用AS转换9 Patch图时，发现有些图片转换后失去alpha信息，无法编辑描边！</p>
+<blockquote>
+<p>res -&gt; drawale-xxhdpi -&gt;  target.png -&gt; 右键 Create 9-Patch File</p>
+</blockquote>
+<!-- more -->
+<h2 id="分析">分析</h2>
+<p>对比发现，</p>
+<ol>
+<li>转换后异常的.9图片为8-bit color 或者 24-bit color, 正常的.9图片均为32-bit color。</li>
+<li>如果原图为8-bit color 或者24-bit color , 转换后异常。但是原图为32-bit color 转换后也有可能异常。</li>
+</ol>
+<p>Google并未有很多反馈，仅有一篇类似问题<a href="https://stackoverflow.com/questions/25171838/9-patch-editor-android-studio-suddenly-black">https://stackoverflow.com/questions/25171838/9-patch-editor-android-studio-suddenly-black</a></p>
+<h3 id="png-8-24-32区别介绍">PNG-8、24、32区别介绍</h3>
+<p><a href="https://www.jianshu.com/p/31207790bad2">https://www.jianshu.com/p/31207790bad2</a></p>
+<h2 id="尝试解决">尝试解决</h2>
+<ol>
+<li>Sketch重新切图后，转换.9正常（未发现图片有什么不同）</li>
+<li>Sketch重新切图后，再压缩后，转换.9正常</li>
+<li>使用在线工具<a href="https://romannurik.github.io/AndroidAssetStudio/nine-patches.html#&amp;sourceDensity=320&amp;name=example">Simple nine-patch generator</a>转换8-bit color ,24-bit color ,32-bit color原图都能得到正常的.9图。</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>Android Studio 9-Patch 直接转存可能丢失位图信息，无法获取32-bit color .9文件。<br>
+推荐直接用<a href="https://romannurik.github.io/AndroidAssetStudio/nine-patches.html#&amp;sourceDensity=320&amp;name=example">Simple nine-patch generator</a>转换异常图片。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Flutter初识]]></title>
         <id>https://songhanghang.github.io/post/hello-gridea</id>
