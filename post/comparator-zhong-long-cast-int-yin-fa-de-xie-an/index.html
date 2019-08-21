@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Comparator中Long Cast Int引发的血案 | 宋航</title>
 <meta name="description" content="相信美好的事情即将发生" />
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1566390805485">
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1566391371302">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://songhanghang.github.io">
-  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1566390805485" alt="">
+  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1566391371302" alt="">
   </a>
   <h1 class="site-title">
     宋航
@@ -129,7 +129,7 @@
             });
 </code></pre>
 <p>这么短几行，看上去好像没什么问题？<br>
-组内Code Review也未发现问题，上线一段时间后陆续收到异常!</p>
+组内Code Review也未发现问题，但是上线一段时间后收到很多异常!</p>
 <!-- more --> 
 <pre><code class="language-java">Caused by: java.lang.IllegalArgumentException: Comparison method violates its general contract!
     at java.util.TimSort.mergeHi(TimSort.java:899)
@@ -180,9 +180,9 @@ Comparator中compare有如下描述。</p>
 <li>传递性：x&gt;y,y&gt;z,则 x&gt;z。</li>
 <li>对称性：x=y,则 x,z 比较结果和 y，z 比较结果相同。</li>
 </ol>
-<p>但是那么我到底违反了那条合同了？<br>
+<p>那么我到底违反了那条合同了？<br>
 唯一能怀疑的也只有 long cast to int 了！</p>
-<p>先看下其取值范围</p>
+<p>先看下两种类型取值范围</p>
 <table>
 <thead>
 <tr>
@@ -204,7 +204,8 @@ Comparator中compare有如下描述。</p>
 </tr>
 </tbody>
 </table>
-<p>于是乎！</p>
+<p>开始找茬游戏...<br>
+于是乎！</p>
 <pre><code class="language-java">long x = 2147483648l, long y = 0
 (int) (x - y) = (int) 2147483648l = -2147483648
 (int) (y - x) = (int) -2147483648l = -2147483648
@@ -220,7 +221,7 @@ Comparator中compare有如下描述。</p>
 <p>神奇的x &gt; y &amp;&amp; y &gt; z &amp;&amp; x &lt; z 也成立了！</p>
 <p>合同第二条传递性违反！</p>
 <p>轻轻松松就写了个弥天大bug!</p>
-<p>找到问题就好解决了，怕了cast就是了。</p>
+<p>找到问题就好解决了，不用cast就是了。</p>
 <pre><code class="language-java">Long.compare(time1, time2);
 </code></pre>
 <p>Long.compare实现也很简单, 直接比较大小，返回对应int值即可。</p>
@@ -229,7 +230,7 @@ Comparator中compare有如下描述。</p>
     }
 </code></pre>
 <h2 id="总结">总结</h2>
-<p>强转精度丢失会惹祸！！！<br>
+<p>类型强转，精度丢失会惹祸！！！<br>
 类型强转需谨慎，谨慎，再谨慎！！！</p>
 
               </div>
