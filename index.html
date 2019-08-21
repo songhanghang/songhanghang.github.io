@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>宋航</title>
 <meta name="description" content="相信美好的事情即将发生" />
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1566219236493">
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1566390805485">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://songhanghang.github.io">
-  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1566219236493" alt="">
+  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1566390805485" alt="">
   </a>
   <h1 class="site-title">
     宋航
@@ -89,6 +89,51 @@
 
     
         <div class="post-container">
+  
+    <article class="post">
+      <a href="https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an">
+        <h2 class="post-title">Comparator中Long Cast Int引发的血案</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-08-21
+        </span>
+        <span>
+          3 min read
+        </span>
+        
+          <a href="https://songhanghang.github.io/tag/7R-9c8gzo" class="post-tag">
+            # java
+          </a>
+        
+          <a href="https://songhanghang.github.io/tag/26Hc59zFj" class="post-tag">
+            # cast
+          </a>
+        
+          <a href="https://songhanghang.github.io/tag/UsHdoLsOa" class="post-tag">
+            # bug
+          </a>
+        
+          <a href="https://songhanghang.github.io/tag/mWKzgqvR1" class="post-tag">
+            # 坑
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <h2 id="先看代码">先看代码</h2>
+<pre><code class="language-java">Collections.sort(list, new Comparator&lt;Long&gt;() {
+                @Override
+                public int compare(Long time1, Long time2) {
+                    return (int) (time1 - time1);
+                }
+            });
+</code></pre>
+<p>这么短几行，看上去好像没什么问题？<br>
+组内Code Review也未发现问题，上线一段时间后陆续收到异常!</p>
+
+      </di>
+    </article>
   
     <article class="post">
       <a href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel">

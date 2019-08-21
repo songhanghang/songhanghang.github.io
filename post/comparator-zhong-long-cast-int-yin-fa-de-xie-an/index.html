@@ -1,0 +1,340 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Comparator中Long Cast Int引发的血案 | 宋航</title>
+<meta name="description" content="相信美好的事情即将发生" />
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1566390805485">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113536496-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-113536496-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://songhanghang.github.io">
+  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1566390805485" alt="">
+  </a>
+  <h1 class="site-title">
+    宋航
+  </h1>
+  <p class="site-description">
+    相信美好的事情即将发生
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/songhanghang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/song-hang-46-94/posts" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Comparator中Long Cast Int引发的血案
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-08-21
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://songhanghang.github.io/tag/7R-9c8gzo" class="post-tag">
+                  # java
+                </a>
+              
+                <a href="https://songhanghang.github.io/tag/26Hc59zFj" class="post-tag">
+                  # cast
+                </a>
+              
+                <a href="https://songhanghang.github.io/tag/UsHdoLsOa" class="post-tag">
+                  # bug
+                </a>
+              
+                <a href="https://songhanghang.github.io/tag/mWKzgqvR1" class="post-tag">
+                  # 坑
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="先看代码">先看代码</h2>
+<pre><code class="language-java">Collections.sort(list, new Comparator&lt;Long&gt;() {
+                @Override
+                public int compare(Long time1, Long time2) {
+                    return (int) (time1 - time1);
+                }
+            });
+</code></pre>
+<p>这么短几行，看上去好像没什么问题？<br>
+组内Code Review也未发现问题，上线一段时间后陆续收到异常!</p>
+<!-- more --> 
+<pre><code class="language-java">Caused by: java.lang.IllegalArgumentException: Comparison method violates its general contract!
+    at java.util.TimSort.mergeHi(TimSort.java:899)
+    at java.util.TimSort.mergeAt(TimSort.java:516)
+    at java.util.TimSort.mergeCollapse(TimSort.java:441)
+    at java.util.TimSort.sort(TimSort.java:245)
+    at java.util.Arrays.sort(Arrays.java:1498)
+    at java.util.ArrayList.sort(ArrayList.java:1470)
+    at java.util.Collections.sort(Collections.java:201)
+</code></pre>
+<p>翻译过来<br>
+比较方法违反了其总合同！！！</p>
+<p>合同在哪？<br>
+Comparator中compare有如下描述。</p>
+<pre><code>**
+     * Compares its two arguments for order.  Returns a negative integer,
+     * zero, or a positive integer as the first argument is less than, equal
+     * to, or greater than the second.&lt;p&gt;
+     *
+     * In the foregoing description, the notation
+     * &lt;tt&gt;sgn(&lt;/tt&gt;&lt;i&gt;expression&lt;/i&gt;&lt;tt&gt;)&lt;/tt&gt; designates the mathematical
+     * &lt;i&gt;signum&lt;/i&gt; function, which is defined to return one of &lt;tt&gt;-1&lt;/tt&gt;,
+     * &lt;tt&gt;0&lt;/tt&gt;, or &lt;tt&gt;1&lt;/tt&gt; according to whether the value of
+     * &lt;i&gt;expression&lt;/i&gt; is negative, zero or positive.&lt;p&gt;
+     *
+     * The implementor must ensure that &lt;tt&gt;sgn(compare(x, y)) ==
+     * -sgn(compare(y, x))&lt;/tt&gt; for all &lt;tt&gt;x&lt;/tt&gt; and &lt;tt&gt;y&lt;/tt&gt;.  (This
+     * implies that &lt;tt&gt;compare(x, y)&lt;/tt&gt; must throw an exception if and only
+     * if &lt;tt&gt;compare(y, x)&lt;/tt&gt; throws an exception.)&lt;p&gt;
+     *
+     * The implementor must also ensure that the relation is transitive:
+     * &lt;tt&gt;((compare(x, y)&amp;gt;0) &amp;amp;&amp;amp; (compare(y, z)&amp;gt;0))&lt;/tt&gt; implies
+     * &lt;tt&gt;compare(x, z)&amp;gt;0&lt;/tt&gt;.&lt;p&gt;
+     *
+     * Finally, the implementor must ensure that &lt;tt&gt;compare(x, y)==0&lt;/tt&gt;
+     * implies that &lt;tt&gt;sgn(compare(x, z))==sgn(compare(y, z))&lt;/tt&gt; for all
+     * &lt;tt&gt;z&lt;/tt&gt;.&lt;p&gt;
+     *
+     * It is generally the case, but &lt;i&gt;not&lt;/i&gt; strictly required that
+     * &lt;tt&gt;(compare(x, y)==0) == (x.equals(y))&lt;/tt&gt;.  Generally speaking,
+     * any comparator that violates this condition should clearly indicate
+     * this fact.  The recommended language is &quot;Note: this comparator
+     * imposes orderings that are inconsistent with equals.&quot;
+</code></pre>
+<p>大致意思就是，你必须保证自反性，传递性，有序性。</p>
+<ol>
+<li>自反性：x，y 的比较结果和 y，x 的比较结果相反。</li>
+<li>传递性：x&gt;y,y&gt;z,则 x&gt;z。</li>
+<li>对称性：x=y,则 x,z 比较结果和 y，z 比较结果相同。</li>
+</ol>
+<p>但是那么我到底违反了那条合同了？<br>
+唯一能怀疑的也只有 long cast to int 了！</p>
+<p>先看下其取值范围</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>最大值</th>
+<th>最小值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td>2^31 - 1 = 2147483647</td>
+<td>-2^31 = -2147483648</td>
+</tr>
+<tr>
+<td>long</td>
+<td>2^63 - 1 = 9223372036854775807</td>
+<td>-2^63 = -9223372036854775808</td>
+</tr>
+</tbody>
+</table>
+<p>于是乎！</p>
+<pre><code class="language-java">long x = 2147483648l, long y = 0
+(int) (x - y) = (int) 2147483648l = -2147483648
+(int) (y - x) = (int) -2147483648l = -2147483648
+</code></pre>
+<p>神奇的x &lt; y &amp;&amp; y &lt; x 成立了！<br>
+合同第一条自反性违反！</p>
+<p>再来</p>
+<pre><code class="language-java">long x = 2147483648l, long y = 1l, long z = -1l
+(int) (x - y) = (int) (2147483647l) = 2147483647
+(int) (y - z) = (int) (2l) = 2l
+(int) (x - z) = (int) (2147483649l) = -2147483647
+</code></pre>
+<p>神奇的x &gt; y &amp;&amp; y &gt; z &amp;&amp; x &lt; z 也成立了！</p>
+<p>合同第二条传递性违反！</p>
+<p>轻轻松松就写了个弥天大bug!</p>
+<p>找到问题就好解决了，怕了cast就是了。</p>
+<pre><code class="language-java">Long.compare(time1, time2);
+</code></pre>
+<p>Long.compare实现也很简单, 直接比较大小，返回对应int值即可。</p>
+<pre><code class="language-java">public static int compare(long x, long y) {
+        return (x &lt; y) ? -1 : ((x == y) ? 0 : 1);
+    }
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>强转精度丢失会惹祸！！！<br>
+类型强转需谨慎，谨慎，再谨慎！！！</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%85%88%E7%9C%8B%E4%BB%A3%E7%A0%81">先看代码</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel">
+              <h3 class="post-title">
+                Android Studio 9-Patch Bug Miss Alpha Channel
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '8f78ac631199b9967f3a',
+    clientSecret: '42ce86c64dc5a3e7133c2c15ac50fd947c0210ba',
+    repo: 'songhanghang.github.io',
+    owner: 'songhanghang',
+    admin: ['songhanghang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://songhanghang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
