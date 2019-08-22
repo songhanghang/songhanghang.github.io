@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2019-08-21T12:42:53.807Z</updated>
+    <updated>2019-08-22T07:45:50.027Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -20,7 +20,7 @@
 <pre><code class="language-java">Collections.sort(list, new Comparator&lt;Long&gt;() {
                 @Override
                 public int compare(Long time1, Long time2) {
-                    return (int) (time1 - time1);
+                    return (int) (time1 - time2);
                 }
             });
 </code></pre>
@@ -31,7 +31,7 @@
 <pre><code class="language-java">Collections.sort(list, new Comparator&lt;Long&gt;() {
                 @Override
                 public int compare(Long time1, Long time2) {
-                    return (int) (time1 - time1);
+                    return (int) (time1 - time2);
                 }
             });
 </code></pre>
