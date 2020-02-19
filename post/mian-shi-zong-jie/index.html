@@ -2,9 +2,9 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>面试总结 | 宋航</title>
+<title>CODE | 宋航</title>
 <meta name="description" content="相信美好的事情即将发生" />
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1581263666063">
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1582111216612">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://songhanghang.github.io">
-  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1581263666063" alt="">
+  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1582111216612" alt="">
   </a>
   <h1 class="site-title">
     宋航
@@ -90,21 +90,21 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              面试总结
+              CODE
             </h2>
             <div class="post-info">
               <span>
                 2020-02-09
               </span>
               <span>
-                1 min read
+                7 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>[TOC]</p>
+                <p>[[TOC]</p>
 <h1 id="面试总结">面试总结</h1>
 <h2 id="android部分">Android部分</h2>
 <h3 id="主流框架">主流框架</h3>
@@ -114,6 +114,10 @@
 <li>Retrofit</li>
 <li>Glide</li>
 <li>Drager2</li>
+<li>LeakCanary</li>
+<li>通过Application注册activity的监听destory, 把destory的Activity存到弱引用中，弱应用会传入一个queue, 主动调用gc，查看弱引用对象是否释放，释放的话会加入queue, 未加入queue就是未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>通过Application注册activity的监听onCreate, 通过FragmentManager注册Fragment监听，把destory的fragment存到弱引用中，主动调用gc，查看弱引用对象是否释放， 未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>可以监听Activity和Fragment但是无法监听io, 游标，Bitmap</li>
 </ul>
 <h3 id="组件化">组件化</h3>
 <ul>
@@ -148,10 +152,23 @@ resoleActivity会检测AppLink链接。<br>
 AMS.grantUriPermissionLocked (检查有没有权限)-&gt;<br>
 AMS.查询ProcessRecord是否存在-&gt;<br>
 不存在的话，AMS.startProcessLocked() 卵化该进程-&gt;<br>
-实例化ActivityThread,执行main方法，初始化Looper-&gt;<br>
+实例化ActivityThread,执行main方法，初始化ActivityThread，初始化Looper，初始化Application-&gt;<br>
 ActivityThread.performLaunchActivity(onCreate)-&gt;<br>
 Instrumentation.newActivity-&gt;<br>
-反射newActivity, 如果首次启动的话，初始化new Application();</p>
+反射newActivity, attachBaseContext();<br>
+实例化PhoneWindow, 关联WindowManager;<br>
+ActivityThread.handleResumeActivity() -&gt;<br>
+windowmanagerglobal.addView(decorview); 在此初始化ViewRootImpl, 关联view.<br>
+ViewRootImpl和Choreographer关联 -&gt;<br>
+Choreographer和SurfaceFinger关联，监听vsync事件-&gt;<br>
+收到vsync后，先插一个消息屏障，保证先执行doFrame(), 开始执行移除屏障，回调ViewRootImpl的执行遍历-&gt;<br>
+mesure-&gt;<br>
+layout-&gt;<br>
+draw-&gt;<br>
+生成DisplayList传递给RenderThread-&gt;<br>
+渲染线程渲染生成FrameBuffer传递给SurfaceFinger-&gt;<br>
+SurfaceFinger合并Frame,交给硬件渲染。<br>
+里边有个三级缓存，最大限度的保证不掉帧。</p>
 </li>
 <li>
 <p>AMS</p>
@@ -200,20 +217,144 @@ ActivityStack：一个管理系统中所有Activity的管理类，真实交由Ac
 <p>SurfingFlinger</p>
 </li>
 <li>
+<p>MainThread RenderThread</p>
+</li>
+<li>
 <p>AsynTask</p>
 </li>
 <li>
-<p>Builder通讯</p>
+<p>Binder通讯 https://www.jianshu.com/p/429a1ff3560c</p>
+</li>
+<li>
+<p>MVVM</p>
+</li>
+<li>
+<p>Hook</p>
+</li>
+<li>
+<p>Android线程通讯方式 共享内存 handler java管道</p>
+</li>
+<li>
+<p>RecyclerView优化点</p>
+</li>
+<li>
+<p>RecyclerView四级缓存<br>
+mAttachedScrap、mCachedViews、mViewCacheExtension、mRecyclerPool</p>
 </li>
 </ul>
+<ol>
+<li>不要在onbind逻辑处理复杂逻辑</li>
+<li>RecyclerView嵌套横向RecyclerView设置RecyclerPool缓存</li>
+<li>减少嵌套</li>
+<li>尽量使用局部刷新</li>
+<li>DiffUtil</li>
+<li>prefetch</li>
+</ol>
+<ul>
+<li>ListView与RecyclerView的差别 RecyclerView缓存机制<br>
+recyclerview的缓存机制，局部刷新，结合diffutil的使用等<br>
+okhttp，连接池，拦截器责任链</li>
+<li>性能相关的有内存，cpu，卡顿，启动速度等，怎么做的<br>
+https://testerhome.com/articles/17101</li>
+<li>aop的框架，apt、aspectj、asm，Javassist</li>
+<li>Hook https://www.jianshu.com/p/4f6d20076922</li>
+<li>requestlayout</li>
+<li>recyclerview实现类似抖音的上下滑，缓存池的设计等等</li>
+<li>Arraymap</li>
+<li>Serializable Parcelable</li>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+<li>LeakCanary 原理</li>
+</ul>
 <h2 id="java">Java</h2>
-<p>gc<br>
-常量池<br>
-字符串池<br>
-线程池<br>
-ClassLoader</p>
+<ul>
+<li>gc<br>
+分代，标记清除，拷贝算法，标记压缩（先标记，再整理一端，再清除）<br>
+线程可达性分析</li>
+<li>常量池 https://cloud.tencent.com/developer/article/1450501</li>
+<li>字符串池</li>
+<li>java类加载</li>
+<li>线程池</li>
+<li>ClassLoader</li>
+<li>volatile</li>
+<li>LeakCanary 原理</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+<li>happen before JVM虚拟机规则，无论怎么优化这些规则不能改变。</li>
+</ul>
+<ol>
+<li>单线程happen-before原则：在同一个线程中，书写在前面的操作happen-before后面的操作。</li>
+<li>锁的happen-before原则：同一个锁的unlock操作happen-before此锁的lock操作。</li>
+<li>volatile的happen-before原则：对一个volatile变量的写操作happen-before对此变量的任意操作(当然也包括写操作了)。</li>
+<li>happen-before的传递性原则：如果A操作 happen-before B操作，B操作happen-before C操作，那么A操作happen-before C操作。</li>
+<li>线程启动的happen-before原则：同一个线程的start方法happen-before此线程的其它方法。</li>
+<li>线程中断的happen-before原则：对线程interrupt方法的调用happen-before被中断线程的检测到中断发送的代码。</li>
+<li>线程终结的happen-before原则：线程中的所有操作都happen-before线程的终止检测。</li>
+<li>对象创建的happen-before原则：一个对象的初始化完成先于他的finalize方法调用。</li>
+</ol>
+<ul>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>Serializable Parcelable</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+</ul>
+<h2 id="网络">网络</h2>
+<ul>
+<li>OKHTTP异步，HTTP请求流程， UDP TCP</li>
+</ul>
 <h2 id="经典源码">经典源码</h2>
 <h2 id="设计模式">设计模式</h2>
+<h2 id="性能优化">性能优化</h2>
+<ul>
+<li>
+<p>启动速度</p>
+<ol>
+<li>老生常谈，过度绘制，层级嵌套，动态加载布局，减少解析xml， xml异步解析</li>
+<li>异步初始化非必要Sdk</li>
+<li>延迟广播，Service的初始化</li>
+<li>延迟子进程初始化</li>
+<li>监听predraw方法，绘制之前能不做就不要做，先保证界面可见</li>
+<li>后台时截图，冷启动时，提前设置上</li>
+<li>混淆，压缩png后转webp</li>
+<li>[探索性] redex facebook， 把相互引用类归类到同一个dex,插桩有坑！</li>
+</ol>
+</li>
+<li>
+<p>内存优化</p>
+<ol>
+<li>先解决一波内存泄漏，再抓heap分析下大内存对象。</li>
+<li>内存抖动严重，回收慢，替换图片加载框架Glide</li>
+<li>进一步优化RecyclerView图片缓存逻辑。可以节省两个Item的视图内存。</li>
+</ol>
+</li>
+</ul>
+<h2 id="flutter">Flutter</h2>
+<ul>
+<li>编程思想不同</li>
+</ul>
+<ol>
+<li>强调组合而不是继承，提供很细粒度的Wegit</li>
+<li>响应式编程，数据改变时，直接setState重建wegit，然后framework diff, 决定是否需要刷新界面。</li>
+<li>支持热部署</li>
+<li>万物皆是wegit</li>
+</ol>
+<ul>
+<li>疑惑</li>
+</ul>
+<ol>
+<li>业务逻辑也在Wegit里边</li>
+<li>Wegit层级会很深，看着很难看</li>
+<li>release版本不支持热部署</li>
+</ol>
+<h2 id="算法">算法</h2>
+<ul>
+<li>快速找出一个数组中的两个数字，让这两个数字之和等于一个给定的值</li>
+<li>中序遍历，倒序，正序</li>
+<li>字符串回文</li>
+<li>字符串转数字</li>
+<li>二叉树深度 宽度</li>
+<li>链表合并 反转 相交</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+</ul>
+<!-- more -->
 
               </div>
               <div class="toc-container">
@@ -229,8 +370,12 @@ ClassLoader</p>
 </ul>
 </li>
 <li><a href="#java">Java</a></li>
+<li><a href="#%E7%BD%91%E7%BB%9C">网络</a></li>
 <li><a href="#%E7%BB%8F%E5%85%B8%E6%BA%90%E7%A0%81">经典源码</a></li>
 <li><a href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">性能优化</a></li>
+<li><a href="#flutter">Flutter</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95">算法</a></li>
 </ul>
 </li>
 </ul>
@@ -243,7 +388,7 @@ ClassLoader</p>
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an">
+            <a href="https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an/">
               <h3 class="post-title">
                 Comparator中Long Cast Int引发的血案
               </h3>

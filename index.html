@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>宋航</title>
 <meta name="description" content="相信美好的事情即将发生" />
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1581263666063">
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1582111216612">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://songhanghang.github.io">
-  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1581263666063" alt="">
+  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1582111216612" alt="">
   </a>
   <h1 class="site-title">
     宋航
@@ -91,26 +91,276 @@
         <div class="post-container">
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/mian-shi-zong-jie">
-        <h2 class="post-title">面试总结</h2>
+      <a href="https://songhanghang.github.io/post/mian-shi-zong-jie/">
+        <h2 class="post-title">CODE</h2>
       </a>
       <div class="post-info">
         <span>
           2020-02-09
         </span>
         <span>
-          1 min read
+          7 min read
         </span>
         
       </div>
       
       <div class="post-abstract">
-        
+        <p>[[TOC]</p>
+<h1 id="面试总结">面试总结</h1>
+<h2 id="android部分">Android部分</h2>
+<h3 id="主流框架">主流框架</h3>
+<ul>
+<li>EnventBus</li>
+<li>Butterknife</li>
+<li>Retrofit</li>
+<li>Glide</li>
+<li>Drager2</li>
+<li>LeakCanary</li>
+<li>通过Application注册activity的监听destory, 把destory的Activity存到弱引用中，弱应用会传入一个queue, 主动调用gc，查看弱引用对象是否释放，释放的话会加入queue, 未加入queue就是未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>通过Application注册activity的监听onCreate, 通过FragmentManager注册Fragment监听，把destory的fragment存到弱引用中，主动调用gc，查看弱引用对象是否释放， 未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>可以监听Activity和Fragment但是无法监听io, 游标，Bitmap</li>
+</ul>
+<h3 id="组件化">组件化</h3>
+<ul>
+<li>基于scheme, 仅限于Activity</li>
+<li>基于接口，必须依赖commonlib</li>
+<li>基于uri路由，无需修改commonlib，但是代码逻辑关联性差</li>
+</ul>
+<h3 id="插件化">插件化</h3>
+<ul>
+<li>基于代理实现,类加载，资源访问，Activity注册检查</li>
+<li>hook系统代码，Instrumentation， ActivityThread</li>
+<li>Dex合成，热修复思想</li>
+</ul>
+<h3 id="android源码">Android源码</h3>
+<ul>
+<li>
+<p>手势分发</p>
+</li>
+<li>
+<p>Activity及Application初始化</p>
+</li>
+<li>
+<p>生命周期 https://mp.weixin.qq.com/s/KibDQpDbQ32yTykEIzKpPQ</p>
+</li>
+<li>
+<p>Activity启动流程<br>
+context.startActivity()-&gt;<br>
+Instrumentation.execStartActivity-&gt;<br>
+AMS.startActivity(）（跨进程）-&gt;<br>
+PMS.resoleActivity() （匹配需要打来Activity，多个的话弹窗选择后打开）-&gt;<br>
+resoleActivity会检测AppLink链接。<br>
+AMS.grantUriPermissionLocked (检查有没有权限)-&gt;<br>
+AMS.查询ProcessRecord是否存在-&gt;<br>
+不存在的话，AMS.startProcessLocked() 卵化该进程-&gt;<br>
+实例化ActivityThread,执行main方法，初始化ActivityThread，初始化Looper，初始化Application-&gt;<br>
+ActivityThread.performLaunchActivity(onCreate)-&gt;<br>
+Instrumentation.newActivity-&gt;<br>
+反射newActivity, attachBaseContext();<br>
+实例化PhoneWindow, 关联WindowManager;<br>
+ActivityThread.handleResumeActivity() -&gt;<br>
+windowmanagerglobal.addView(decorview); 在此初始化ViewRootImpl, 关联view.<br>
+ViewRootImpl和Choreographer关联 -&gt;<br>
+Choreographer和SurfaceFinger关联，监听vsync事件-&gt;<br>
+收到vsync后，先插一个消息屏障，保证先执行doFrame(), 开始执行移除屏障，回调ViewRootImpl的执行遍历-&gt;<br>
+mesure-&gt;<br>
+layout-&gt;<br>
+draw-&gt;<br>
+生成DisplayList传递给RenderThread-&gt;<br>
+渲染线程渲染生成FrameBuffer传递给SurfaceFinger-&gt;<br>
+SurfaceFinger合并Frame,交给硬件渲染。<br>
+里边有个三级缓存，最大限度的保证不掉帧。</p>
+</li>
+<li>
+<p>AMS</p>
+</li>
+<li>
+<p>管理Activity, 通过Binder与系统通讯， 7.0之前之前通过代理与系统通讯，8.0之后通过binder与系统通讯。</p>
+</li>
+<li>
+<p>AMS中主要涉及这三个数据结构：<br>
+ActivityRecord、TaskRecord和ActivityStack<br>
+ActivityRecord：存储Activity的相关信息，比如AndroidMainifes的节点信息，启动Activity的包名，所在进程，图标主题标识符，当前Activity状态，所属TaskRecord等。<br>
+TaskRecord：描述一个Activity任务栈，主要维护了一个按历史顺序排列的ArrayList<ActivityRecord>，并包含此任务栈所属的ActivityStack等。<br>
+ActivityStack：一个管理系统中所有Activity的管理类，真实交由ActivityStackSupervisor管理，内部维护了Activity的所有状态，并对不同状态的Activity进行分类管理，如最近启动的Activity，正在暂停的Activity等。</p>
+</li>
+<li>
+<p>PMS</p>
+</li>
+<li>
+<p>应用管理服务，管理安装，卸载，查找程序，解析intent, 配置Activity.</p>
+</li>
+<li>
+<p>WMS</p>
+</li>
+<li>
+<p>窗口管理服务，统一管理视图窗口。WindowManager 和 WindowManagerService的交互是一个 IPC 过程。https://blog.csdn.net/liujian8654562/article/details/81874942</p>
+</li>
+<li>
+<p>任务栈回退栈</p>
+</li>
+<li>
+<p>https://www.jianshu.com/p/94816e52cd77</p>
+</li>
+<li>
+<p>https://developer.android.com/guide/components/activities/tasks-and-back-stack?hl=zh-cn</p>
+</li>
+<li>
+<p>ViewRootImpl, View.invalite requestLayout</p>
+</li>
+<li>
+<p>Handler</p>
+</li>
+<li>
+<p>Choreographer</p>
+</li>
+<li>
+<p>SurfingFlinger</p>
+</li>
+<li>
+<p>MainThread RenderThread</p>
+</li>
+<li>
+<p>AsynTask</p>
+</li>
+<li>
+<p>Binder通讯 https://www.jianshu.com/p/429a1ff3560c</p>
+</li>
+<li>
+<p>MVVM</p>
+</li>
+<li>
+<p>Hook</p>
+</li>
+<li>
+<p>Android线程通讯方式 共享内存 handler java管道</p>
+</li>
+<li>
+<p>RecyclerView优化点</p>
+</li>
+<li>
+<p>RecyclerView四级缓存<br>
+mAttachedScrap、mCachedViews、mViewCacheExtension、mRecyclerPool</p>
+</li>
+</ul>
+<ol>
+<li>不要在onbind逻辑处理复杂逻辑</li>
+<li>RecyclerView嵌套横向RecyclerView设置RecyclerPool缓存</li>
+<li>减少嵌套</li>
+<li>尽量使用局部刷新</li>
+<li>DiffUtil</li>
+<li>prefetch</li>
+</ol>
+<ul>
+<li>ListView与RecyclerView的差别 RecyclerView缓存机制<br>
+recyclerview的缓存机制，局部刷新，结合diffutil的使用等<br>
+okhttp，连接池，拦截器责任链</li>
+<li>性能相关的有内存，cpu，卡顿，启动速度等，怎么做的<br>
+https://testerhome.com/articles/17101</li>
+<li>aop的框架，apt、aspectj、asm，Javassist</li>
+<li>Hook https://www.jianshu.com/p/4f6d20076922</li>
+<li>requestlayout</li>
+<li>recyclerview实现类似抖音的上下滑，缓存池的设计等等</li>
+<li>Arraymap</li>
+<li>Serializable Parcelable</li>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+<li>LeakCanary 原理</li>
+</ul>
+<h2 id="java">Java</h2>
+<ul>
+<li>gc<br>
+分代，标记清除，拷贝算法，标记压缩（先标记，再整理一端，再清除）<br>
+线程可达性分析</li>
+<li>常量池 https://cloud.tencent.com/developer/article/1450501</li>
+<li>字符串池</li>
+<li>java类加载</li>
+<li>线程池</li>
+<li>ClassLoader</li>
+<li>volatile</li>
+<li>LeakCanary 原理</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+<li>happen before JVM虚拟机规则，无论怎么优化这些规则不能改变。</li>
+</ul>
+<ol>
+<li>单线程happen-before原则：在同一个线程中，书写在前面的操作happen-before后面的操作。</li>
+<li>锁的happen-before原则：同一个锁的unlock操作happen-before此锁的lock操作。</li>
+<li>volatile的happen-before原则：对一个volatile变量的写操作happen-before对此变量的任意操作(当然也包括写操作了)。</li>
+<li>happen-before的传递性原则：如果A操作 happen-before B操作，B操作happen-before C操作，那么A操作happen-before C操作。</li>
+<li>线程启动的happen-before原则：同一个线程的start方法happen-before此线程的其它方法。</li>
+<li>线程中断的happen-before原则：对线程interrupt方法的调用happen-before被中断线程的检测到中断发送的代码。</li>
+<li>线程终结的happen-before原则：线程中的所有操作都happen-before线程的终止检测。</li>
+<li>对象创建的happen-before原则：一个对象的初始化完成先于他的finalize方法调用。</li>
+</ol>
+<ul>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>Serializable Parcelable</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+</ul>
+<h2 id="网络">网络</h2>
+<ul>
+<li>OKHTTP异步，HTTP请求流程， UDP TCP</li>
+</ul>
+<h2 id="经典源码">经典源码</h2>
+<h2 id="设计模式">设计模式</h2>
+<h2 id="性能优化">性能优化</h2>
+<ul>
+<li>
+<p>启动速度</p>
+<ol>
+<li>老生常谈，过度绘制，层级嵌套，动态加载布局，减少解析xml， xml异步解析</li>
+<li>异步初始化非必要Sdk</li>
+<li>延迟广播，Service的初始化</li>
+<li>延迟子进程初始化</li>
+<li>监听predraw方法，绘制之前能不做就不要做，先保证界面可见</li>
+<li>后台时截图，冷启动时，提前设置上</li>
+<li>混淆，压缩png后转webp</li>
+<li>[探索性] redex facebook， 把相互引用类归类到同一个dex,插桩有坑！</li>
+</ol>
+</li>
+<li>
+<p>内存优化</p>
+<ol>
+<li>先解决一波内存泄漏，再抓heap分析下大内存对象。</li>
+<li>内存抖动严重，回收慢，替换图片加载框架Glide</li>
+<li>进一步优化RecyclerView图片缓存逻辑。可以节省两个Item的视图内存。</li>
+</ol>
+</li>
+</ul>
+<h2 id="flutter">Flutter</h2>
+<ul>
+<li>编程思想不同</li>
+</ul>
+<ol>
+<li>强调组合而不是继承，提供很细粒度的Wegit</li>
+<li>响应式编程，数据改变时，直接setState重建wegit，然后framework diff, 决定是否需要刷新界面。</li>
+<li>支持热部署</li>
+<li>万物皆是wegit</li>
+</ol>
+<ul>
+<li>疑惑</li>
+</ul>
+<ol>
+<li>业务逻辑也在Wegit里边</li>
+<li>Wegit层级会很深，看着很难看</li>
+<li>release版本不支持热部署</li>
+</ol>
+<h2 id="算法">算法</h2>
+<ul>
+<li>快速找出一个数组中的两个数字，让这两个数字之和等于一个给定的值</li>
+<li>中序遍历，倒序，正序</li>
+<li>字符串回文</li>
+<li>字符串转数字</li>
+<li>二叉树深度 宽度</li>
+<li>链表合并 反转 相交</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+</ul>
+
       </di>
     </article>
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an">
+      <a href="https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an/">
         <h2 class="post-title">Comparator中Long Cast Int引发的血案</h2>
       </a>
       <div class="post-info">
@@ -118,22 +368,22 @@
           2019-08-21
         </span>
         <span>
-          3 min read
+          5 min read
         </span>
         
-          <a href="https://songhanghang.github.io/tag/7R-9c8gzo" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/7R-9c8gzo/" class="post-tag">
             # java
           </a>
         
-          <a href="https://songhanghang.github.io/tag/26Hc59zFj" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/26Hc59zFj/" class="post-tag">
             # cast
           </a>
         
-          <a href="https://songhanghang.github.io/tag/UsHdoLsOa" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/UsHdoLsOa/" class="post-tag">
             # bug
           </a>
         
-          <a href="https://songhanghang.github.io/tag/mWKzgqvR1" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/mWKzgqvR1/" class="post-tag">
             # 坑
           </a>
         
@@ -155,7 +405,7 @@
     </article>
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel">
+      <a href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel/">
         <h2 class="post-title">Android Studio 9-Patch Bug Miss Alpha Channel</h2>
       </a>
       <div class="post-info">
@@ -163,16 +413,16 @@
           2019-08-19
         </span>
         <span>
-          1 min read
+          2 min read
         </span>
         
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
             # Android
           </a>
         
       </div>
       
-        <a href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/android-studio-9-patch-bug-miss-alpha-channel.png')">
+        <a href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel/" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/android-studio-9-patch-bug-miss-alpha-channel.png')">
         </a>
       
       <div class="post-abstract">
@@ -186,7 +436,7 @@
     </article>
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/hello-gridea">
+      <a href="https://songhanghang.github.io/post/hello-gridea/">
         <h2 class="post-title">Flutter初识</h2>
       </a>
       <div class="post-info">
@@ -194,20 +444,20 @@
           2019-07-29
         </span>
         <span>
-          7 min read
+          14 min read
         </span>
         
-          <a href="https://songhanghang.github.io/tag/mGh23E4z4" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/mGh23E4z4/" class="post-tag">
             # Flutter
           </a>
         
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
             # Android
           </a>
         
       </div>
       
-        <a href="https://songhanghang.github.io/post/hello-gridea" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/hello-gridea.png')">
+        <a href="https://songhanghang.github.io/post/hello-gridea/" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/hello-gridea.png')">
         </a>
       
       <div class="post-abstract">
@@ -216,7 +466,7 @@
     </article>
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
+      <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo/">
         <h2 class="post-title">Redcord 连接你我</h2>
       </a>
       <div class="post-info">
@@ -224,20 +474,20 @@
           2019-06-06
         </span>
         <span>
-          1 min read
+          4 min read
         </span>
         
-          <a href="https://songhanghang.github.io/tag/rFS5po1sa" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/rFS5po1sa/" class="post-tag">
             # App
           </a>
         
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
             # Android
           </a>
         
       </div>
       
-        <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/redcord-lian-jie-ni-wo.png')">
+        <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo/" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/redcord-lian-jie-ni-wo.png')">
         </a>
       
       <div class="post-abstract">
@@ -250,7 +500,7 @@
     </article>
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/makefile-zhi-nan">
+      <a href="https://songhanghang.github.io/post/makefile-zhi-nan/">
         <h2 class="post-title">MakeFile指南</h2>
       </a>
       <div class="post-info">
@@ -258,7 +508,7 @@
           2018-07-01
         </span>
         <span>
-          9 min read
+          31 min read
         </span>
         
       </div>
@@ -273,7 +523,7 @@ GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://w
     </article>
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">
+      <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji/">
         <h2 class="post-title">Goaway 远离手机</h2>
       </a>
       <div class="post-info">
@@ -281,20 +531,20 @@ GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://w
           2018-04-05
         </span>
         <span>
-          1 min read
+          2 min read
         </span>
         
-          <a href="https://songhanghang.github.io/tag/rFS5po1sa" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/rFS5po1sa/" class="post-tag">
             # App
           </a>
         
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
             # Android
           </a>
         
       </div>
       
-        <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/goaway-yuan-chi-shou-ji.jpeg')">
+        <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji/" class="post-feature-image" style="background-image: url('https://songhanghang.github.io/post-images/goaway-yuan-chi-shou-ji.jpeg')">
         </a>
       
       <div class="post-abstract">
@@ -306,7 +556,7 @@ GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://w
     </article>
   
     <article class="post">
-      <a href="https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang">
+      <a href="https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang/">
         <h2 class="post-title">如何保证ImageView.setImageResource()传入.9图片时展示正常？</h2>
       </a>
       <div class="post-info">
@@ -314,10 +564,10 @@ GNU make: <a href="https://www.gnu.org/software/make/manual/make.html">https://w
           2017-08-09
         </span>
         <span>
-          2 min read
+          3 min read
         </span>
         
-          <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
+          <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
             # Android
           </a>
         

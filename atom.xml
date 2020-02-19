@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2020-02-09T15:54:29.419Z</updated>
+    <updated>2020-02-19T11:20:19.326Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -11,12 +11,12 @@
     <icon>https://songhanghang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 宋航</rights>
     <entry>
-        <title type="html"><![CDATA[面试总结]]></title>
-        <id>https://songhanghang.github.io/post/mian-shi-zong-jie</id>
-        <link href="https://songhanghang.github.io/post/mian-shi-zong-jie">
+        <title type="html"><![CDATA[CODE]]></title>
+        <id>https://songhanghang.github.io/post/mian-shi-zong-jie/</id>
+        <link href="https://songhanghang.github.io/post/mian-shi-zong-jie/">
         </link>
         <updated>2020-02-09T15:12:36.000Z</updated>
-        <content type="html"><![CDATA[<p>[TOC]</p>
+        <summary type="html"><![CDATA[<p>[[TOC]</p>
 <h1 id="面试总结">面试总结</h1>
 <h2 id="android部分">Android部分</h2>
 <h3 id="主流框架">主流框架</h3>
@@ -26,6 +26,10 @@
 <li>Retrofit</li>
 <li>Glide</li>
 <li>Drager2</li>
+<li>LeakCanary</li>
+<li>通过Application注册activity的监听destory, 把destory的Activity存到弱引用中，弱应用会传入一个queue, 主动调用gc，查看弱引用对象是否释放，释放的话会加入queue, 未加入queue就是未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>通过Application注册activity的监听onCreate, 通过FragmentManager注册Fragment监听，把destory的fragment存到弱引用中，主动调用gc，查看弱引用对象是否释放， 未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>可以监听Activity和Fragment但是无法监听io, 游标，Bitmap</li>
 </ul>
 <h3 id="组件化">组件化</h3>
 <ul>
@@ -60,10 +64,23 @@ resoleActivity会检测AppLink链接。<br>
 AMS.grantUriPermissionLocked (检查有没有权限)-&gt;<br>
 AMS.查询ProcessRecord是否存在-&gt;<br>
 不存在的话，AMS.startProcessLocked() 卵化该进程-&gt;<br>
-实例化ActivityThread,执行main方法，初始化Looper-&gt;<br>
+实例化ActivityThread,执行main方法，初始化ActivityThread，初始化Looper，初始化Application-&gt;<br>
 ActivityThread.performLaunchActivity(onCreate)-&gt;<br>
 Instrumentation.newActivity-&gt;<br>
-反射newActivity, 如果首次启动的话，初始化new Application();</p>
+反射newActivity, attachBaseContext();<br>
+实例化PhoneWindow, 关联WindowManager;<br>
+ActivityThread.handleResumeActivity() -&gt;<br>
+windowmanagerglobal.addView(decorview); 在此初始化ViewRootImpl, 关联view.<br>
+ViewRootImpl和Choreographer关联 -&gt;<br>
+Choreographer和SurfaceFinger关联，监听vsync事件-&gt;<br>
+收到vsync后，先插一个消息屏障，保证先执行doFrame(), 开始执行移除屏障，回调ViewRootImpl的执行遍历-&gt;<br>
+mesure-&gt;<br>
+layout-&gt;<br>
+draw-&gt;<br>
+生成DisplayList传递给RenderThread-&gt;<br>
+渲染线程渲染生成FrameBuffer传递给SurfaceFinger-&gt;<br>
+SurfaceFinger合并Frame,交给硬件渲染。<br>
+里边有个三级缓存，最大限度的保证不掉帧。</p>
 </li>
 <li>
 <p>AMS</p>
@@ -112,26 +129,401 @@ ActivityStack：一个管理系统中所有Activity的管理类，真实交由Ac
 <p>SurfingFlinger</p>
 </li>
 <li>
+<p>MainThread RenderThread</p>
+</li>
+<li>
 <p>AsynTask</p>
 </li>
 <li>
-<p>Builder通讯</p>
+<p>Binder通讯 https://www.jianshu.com/p/429a1ff3560c</p>
+</li>
+<li>
+<p>MVVM</p>
+</li>
+<li>
+<p>Hook</p>
+</li>
+<li>
+<p>Android线程通讯方式 共享内存 handler java管道</p>
+</li>
+<li>
+<p>RecyclerView优化点</p>
+</li>
+<li>
+<p>RecyclerView四级缓存<br>
+mAttachedScrap、mCachedViews、mViewCacheExtension、mRecyclerPool</p>
 </li>
 </ul>
+<ol>
+<li>不要在onbind逻辑处理复杂逻辑</li>
+<li>RecyclerView嵌套横向RecyclerView设置RecyclerPool缓存</li>
+<li>减少嵌套</li>
+<li>尽量使用局部刷新</li>
+<li>DiffUtil</li>
+<li>prefetch</li>
+</ol>
+<ul>
+<li>ListView与RecyclerView的差别 RecyclerView缓存机制<br>
+recyclerview的缓存机制，局部刷新，结合diffutil的使用等<br>
+okhttp，连接池，拦截器责任链</li>
+<li>性能相关的有内存，cpu，卡顿，启动速度等，怎么做的<br>
+https://testerhome.com/articles/17101</li>
+<li>aop的框架，apt、aspectj、asm，Javassist</li>
+<li>Hook https://www.jianshu.com/p/4f6d20076922</li>
+<li>requestlayout</li>
+<li>recyclerview实现类似抖音的上下滑，缓存池的设计等等</li>
+<li>Arraymap</li>
+<li>Serializable Parcelable</li>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+<li>LeakCanary 原理</li>
+</ul>
 <h2 id="java">Java</h2>
-<p>gc<br>
-常量池<br>
-字符串池<br>
-线程池<br>
-ClassLoader</p>
+<ul>
+<li>gc<br>
+分代，标记清除，拷贝算法，标记压缩（先标记，再整理一端，再清除）<br>
+线程可达性分析</li>
+<li>常量池 https://cloud.tencent.com/developer/article/1450501</li>
+<li>字符串池</li>
+<li>java类加载</li>
+<li>线程池</li>
+<li>ClassLoader</li>
+<li>volatile</li>
+<li>LeakCanary 原理</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+<li>happen before JVM虚拟机规则，无论怎么优化这些规则不能改变。</li>
+</ul>
+<ol>
+<li>单线程happen-before原则：在同一个线程中，书写在前面的操作happen-before后面的操作。</li>
+<li>锁的happen-before原则：同一个锁的unlock操作happen-before此锁的lock操作。</li>
+<li>volatile的happen-before原则：对一个volatile变量的写操作happen-before对此变量的任意操作(当然也包括写操作了)。</li>
+<li>happen-before的传递性原则：如果A操作 happen-before B操作，B操作happen-before C操作，那么A操作happen-before C操作。</li>
+<li>线程启动的happen-before原则：同一个线程的start方法happen-before此线程的其它方法。</li>
+<li>线程中断的happen-before原则：对线程interrupt方法的调用happen-before被中断线程的检测到中断发送的代码。</li>
+<li>线程终结的happen-before原则：线程中的所有操作都happen-before线程的终止检测。</li>
+<li>对象创建的happen-before原则：一个对象的初始化完成先于他的finalize方法调用。</li>
+</ol>
+<ul>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>Serializable Parcelable</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+</ul>
+<h2 id="网络">网络</h2>
+<ul>
+<li>OKHTTP异步，HTTP请求流程， UDP TCP</li>
+</ul>
 <h2 id="经典源码">经典源码</h2>
 <h2 id="设计模式">设计模式</h2>
+<h2 id="性能优化">性能优化</h2>
+<ul>
+<li>
+<p>启动速度</p>
+<ol>
+<li>老生常谈，过度绘制，层级嵌套，动态加载布局，减少解析xml， xml异步解析</li>
+<li>异步初始化非必要Sdk</li>
+<li>延迟广播，Service的初始化</li>
+<li>延迟子进程初始化</li>
+<li>监听predraw方法，绘制之前能不做就不要做，先保证界面可见</li>
+<li>后台时截图，冷启动时，提前设置上</li>
+<li>混淆，压缩png后转webp</li>
+<li>[探索性] redex facebook， 把相互引用类归类到同一个dex,插桩有坑！</li>
+</ol>
+</li>
+<li>
+<p>内存优化</p>
+<ol>
+<li>先解决一波内存泄漏，再抓heap分析下大内存对象。</li>
+<li>内存抖动严重，回收慢，替换图片加载框架Glide</li>
+<li>进一步优化RecyclerView图片缓存逻辑。可以节省两个Item的视图内存。</li>
+</ol>
+</li>
+</ul>
+<h2 id="flutter">Flutter</h2>
+<ul>
+<li>编程思想不同</li>
+</ul>
+<ol>
+<li>强调组合而不是继承，提供很细粒度的Wegit</li>
+<li>响应式编程，数据改变时，直接setState重建wegit，然后framework diff, 决定是否需要刷新界面。</li>
+<li>支持热部署</li>
+<li>万物皆是wegit</li>
+</ol>
+<ul>
+<li>疑惑</li>
+</ul>
+<ol>
+<li>业务逻辑也在Wegit里边</li>
+<li>Wegit层级会很深，看着很难看</li>
+<li>release版本不支持热部署</li>
+</ol>
+<h2 id="算法">算法</h2>
+<ul>
+<li>快速找出一个数组中的两个数字，让这两个数字之和等于一个给定的值</li>
+<li>中序遍历，倒序，正序</li>
+<li>字符串回文</li>
+<li>字符串转数字</li>
+<li>二叉树深度 宽度</li>
+<li>链表合并 反转 相交</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+</ul>
+]]></summary>
+        <content type="html"><![CDATA[<p>[[TOC]</p>
+<h1 id="面试总结">面试总结</h1>
+<h2 id="android部分">Android部分</h2>
+<h3 id="主流框架">主流框架</h3>
+<ul>
+<li>EnventBus</li>
+<li>Butterknife</li>
+<li>Retrofit</li>
+<li>Glide</li>
+<li>Drager2</li>
+<li>LeakCanary</li>
+<li>通过Application注册activity的监听destory, 把destory的Activity存到弱引用中，弱应用会传入一个queue, 主动调用gc，查看弱引用对象是否释放，释放的话会加入queue, 未加入queue就是未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>通过Application注册activity的监听onCreate, 通过FragmentManager注册Fragment监听，把destory的fragment存到弱引用中，主动调用gc，查看弱引用对象是否释放， 未释放就是泄漏了，dump 内存快照，然后解析内存快照展示。</li>
+<li>可以监听Activity和Fragment但是无法监听io, 游标，Bitmap</li>
+</ul>
+<h3 id="组件化">组件化</h3>
+<ul>
+<li>基于scheme, 仅限于Activity</li>
+<li>基于接口，必须依赖commonlib</li>
+<li>基于uri路由，无需修改commonlib，但是代码逻辑关联性差</li>
+</ul>
+<h3 id="插件化">插件化</h3>
+<ul>
+<li>基于代理实现,类加载，资源访问，Activity注册检查</li>
+<li>hook系统代码，Instrumentation， ActivityThread</li>
+<li>Dex合成，热修复思想</li>
+</ul>
+<h3 id="android源码">Android源码</h3>
+<ul>
+<li>
+<p>手势分发</p>
+</li>
+<li>
+<p>Activity及Application初始化</p>
+</li>
+<li>
+<p>生命周期 https://mp.weixin.qq.com/s/KibDQpDbQ32yTykEIzKpPQ</p>
+</li>
+<li>
+<p>Activity启动流程<br>
+context.startActivity()-&gt;<br>
+Instrumentation.execStartActivity-&gt;<br>
+AMS.startActivity(）（跨进程）-&gt;<br>
+PMS.resoleActivity() （匹配需要打来Activity，多个的话弹窗选择后打开）-&gt;<br>
+resoleActivity会检测AppLink链接。<br>
+AMS.grantUriPermissionLocked (检查有没有权限)-&gt;<br>
+AMS.查询ProcessRecord是否存在-&gt;<br>
+不存在的话，AMS.startProcessLocked() 卵化该进程-&gt;<br>
+实例化ActivityThread,执行main方法，初始化ActivityThread，初始化Looper，初始化Application-&gt;<br>
+ActivityThread.performLaunchActivity(onCreate)-&gt;<br>
+Instrumentation.newActivity-&gt;<br>
+反射newActivity, attachBaseContext();<br>
+实例化PhoneWindow, 关联WindowManager;<br>
+ActivityThread.handleResumeActivity() -&gt;<br>
+windowmanagerglobal.addView(decorview); 在此初始化ViewRootImpl, 关联view.<br>
+ViewRootImpl和Choreographer关联 -&gt;<br>
+Choreographer和SurfaceFinger关联，监听vsync事件-&gt;<br>
+收到vsync后，先插一个消息屏障，保证先执行doFrame(), 开始执行移除屏障，回调ViewRootImpl的执行遍历-&gt;<br>
+mesure-&gt;<br>
+layout-&gt;<br>
+draw-&gt;<br>
+生成DisplayList传递给RenderThread-&gt;<br>
+渲染线程渲染生成FrameBuffer传递给SurfaceFinger-&gt;<br>
+SurfaceFinger合并Frame,交给硬件渲染。<br>
+里边有个三级缓存，最大限度的保证不掉帧。</p>
+</li>
+<li>
+<p>AMS</p>
+</li>
+<li>
+<p>管理Activity, 通过Binder与系统通讯， 7.0之前之前通过代理与系统通讯，8.0之后通过binder与系统通讯。</p>
+</li>
+<li>
+<p>AMS中主要涉及这三个数据结构：<br>
+ActivityRecord、TaskRecord和ActivityStack<br>
+ActivityRecord：存储Activity的相关信息，比如AndroidMainifes的节点信息，启动Activity的包名，所在进程，图标主题标识符，当前Activity状态，所属TaskRecord等。<br>
+TaskRecord：描述一个Activity任务栈，主要维护了一个按历史顺序排列的ArrayList<ActivityRecord>，并包含此任务栈所属的ActivityStack等。<br>
+ActivityStack：一个管理系统中所有Activity的管理类，真实交由ActivityStackSupervisor管理，内部维护了Activity的所有状态，并对不同状态的Activity进行分类管理，如最近启动的Activity，正在暂停的Activity等。</p>
+</li>
+<li>
+<p>PMS</p>
+</li>
+<li>
+<p>应用管理服务，管理安装，卸载，查找程序，解析intent, 配置Activity.</p>
+</li>
+<li>
+<p>WMS</p>
+</li>
+<li>
+<p>窗口管理服务，统一管理视图窗口。WindowManager 和 WindowManagerService的交互是一个 IPC 过程。https://blog.csdn.net/liujian8654562/article/details/81874942</p>
+</li>
+<li>
+<p>任务栈回退栈</p>
+</li>
+<li>
+<p>https://www.jianshu.com/p/94816e52cd77</p>
+</li>
+<li>
+<p>https://developer.android.com/guide/components/activities/tasks-and-back-stack?hl=zh-cn</p>
+</li>
+<li>
+<p>ViewRootImpl, View.invalite requestLayout</p>
+</li>
+<li>
+<p>Handler</p>
+</li>
+<li>
+<p>Choreographer</p>
+</li>
+<li>
+<p>SurfingFlinger</p>
+</li>
+<li>
+<p>MainThread RenderThread</p>
+</li>
+<li>
+<p>AsynTask</p>
+</li>
+<li>
+<p>Binder通讯 https://www.jianshu.com/p/429a1ff3560c</p>
+</li>
+<li>
+<p>MVVM</p>
+</li>
+<li>
+<p>Hook</p>
+</li>
+<li>
+<p>Android线程通讯方式 共享内存 handler java管道</p>
+</li>
+<li>
+<p>RecyclerView优化点</p>
+</li>
+<li>
+<p>RecyclerView四级缓存<br>
+mAttachedScrap、mCachedViews、mViewCacheExtension、mRecyclerPool</p>
+</li>
+</ul>
+<ol>
+<li>不要在onbind逻辑处理复杂逻辑</li>
+<li>RecyclerView嵌套横向RecyclerView设置RecyclerPool缓存</li>
+<li>减少嵌套</li>
+<li>尽量使用局部刷新</li>
+<li>DiffUtil</li>
+<li>prefetch</li>
+</ol>
+<ul>
+<li>ListView与RecyclerView的差别 RecyclerView缓存机制<br>
+recyclerview的缓存机制，局部刷新，结合diffutil的使用等<br>
+okhttp，连接池，拦截器责任链</li>
+<li>性能相关的有内存，cpu，卡顿，启动速度等，怎么做的<br>
+https://testerhome.com/articles/17101</li>
+<li>aop的框架，apt、aspectj、asm，Javassist</li>
+<li>Hook https://www.jianshu.com/p/4f6d20076922</li>
+<li>requestlayout</li>
+<li>recyclerview实现类似抖音的上下滑，缓存池的设计等等</li>
+<li>Arraymap</li>
+<li>Serializable Parcelable</li>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+<li>LeakCanary 原理</li>
+</ul>
+<h2 id="java">Java</h2>
+<ul>
+<li>gc<br>
+分代，标记清除，拷贝算法，标记压缩（先标记，再整理一端，再清除）<br>
+线程可达性分析</li>
+<li>常量池 https://cloud.tencent.com/developer/article/1450501</li>
+<li>字符串池</li>
+<li>java类加载</li>
+<li>线程池</li>
+<li>ClassLoader</li>
+<li>volatile</li>
+<li>LeakCanary 原理</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+<li>happen before JVM虚拟机规则，无论怎么优化这些规则不能改变。</li>
+</ul>
+<ol>
+<li>单线程happen-before原则：在同一个线程中，书写在前面的操作happen-before后面的操作。</li>
+<li>锁的happen-before原则：同一个锁的unlock操作happen-before此锁的lock操作。</li>
+<li>volatile的happen-before原则：对一个volatile变量的写操作happen-before对此变量的任意操作(当然也包括写操作了)。</li>
+<li>happen-before的传递性原则：如果A操作 happen-before B操作，B操作happen-before C操作，那么A操作happen-before C操作。</li>
+<li>线程启动的happen-before原则：同一个线程的start方法happen-before此线程的其它方法。</li>
+<li>线程中断的happen-before原则：对线程interrupt方法的调用happen-before被中断线程的检测到中断发送的代码。</li>
+<li>线程终结的happen-before原则：线程中的所有操作都happen-before线程的终止检测。</li>
+<li>对象创建的happen-before原则：一个对象的初始化完成先于他的finalize方法调用。</li>
+</ol>
+<ul>
+<li>Jvm内存模型 https://www.jianshu.com/p/a448fba00aa0</li>
+<li>Serializable Parcelable</li>
+<li>synchronized 原理  https://www.jianshu.com/p/e62fa839aa41</li>
+</ul>
+<h2 id="网络">网络</h2>
+<ul>
+<li>OKHTTP异步，HTTP请求流程， UDP TCP</li>
+</ul>
+<h2 id="经典源码">经典源码</h2>
+<h2 id="设计模式">设计模式</h2>
+<h2 id="性能优化">性能优化</h2>
+<ul>
+<li>
+<p>启动速度</p>
+<ol>
+<li>老生常谈，过度绘制，层级嵌套，动态加载布局，减少解析xml， xml异步解析</li>
+<li>异步初始化非必要Sdk</li>
+<li>延迟广播，Service的初始化</li>
+<li>延迟子进程初始化</li>
+<li>监听predraw方法，绘制之前能不做就不要做，先保证界面可见</li>
+<li>后台时截图，冷启动时，提前设置上</li>
+<li>混淆，压缩png后转webp</li>
+<li>[探索性] redex facebook， 把相互引用类归类到同一个dex,插桩有坑！</li>
+</ol>
+</li>
+<li>
+<p>内存优化</p>
+<ol>
+<li>先解决一波内存泄漏，再抓heap分析下大内存对象。</li>
+<li>内存抖动严重，回收慢，替换图片加载框架Glide</li>
+<li>进一步优化RecyclerView图片缓存逻辑。可以节省两个Item的视图内存。</li>
+</ol>
+</li>
+</ul>
+<h2 id="flutter">Flutter</h2>
+<ul>
+<li>编程思想不同</li>
+</ul>
+<ol>
+<li>强调组合而不是继承，提供很细粒度的Wegit</li>
+<li>响应式编程，数据改变时，直接setState重建wegit，然后framework diff, 决定是否需要刷新界面。</li>
+<li>支持热部署</li>
+<li>万物皆是wegit</li>
+</ol>
+<ul>
+<li>疑惑</li>
+</ul>
+<ol>
+<li>业务逻辑也在Wegit里边</li>
+<li>Wegit层级会很深，看着很难看</li>
+<li>release版本不支持热部署</li>
+</ol>
+<h2 id="算法">算法</h2>
+<ul>
+<li>快速找出一个数组中的两个数字，让这两个数字之和等于一个给定的值</li>
+<li>中序遍历，倒序，正序</li>
+<li>字符串回文</li>
+<li>字符串转数字</li>
+<li>二叉树深度 宽度</li>
+<li>链表合并 反转 相交</li>
+<li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+</ul>
+<!-- more -->
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Comparator中Long Cast Int引发的血案]]></title>
-        <id>https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an</id>
-        <link href="https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an">
+        <id>https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an/</id>
+        <link href="https://songhanghang.github.io/post/comparator-zhong-long-cast-int-yin-fa-de-xie-an/">
         </link>
         <updated>2019-08-21T12:30:52.000Z</updated>
         <summary type="html"><![CDATA[<h2 id="先看代码">先看代码</h2>
@@ -261,8 +653,8 @@ Comparator中compare有如下描述。</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[Android Studio 9-Patch Bug Miss Alpha Channel]]></title>
-        <id>https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel</id>
-        <link href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel">
+        <id>https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel/</id>
+        <link href="https://songhanghang.github.io/post/android-studio-9-patch-bug-miss-alpha-channel/">
         </link>
         <updated>2019-08-19T12:20:16.000Z</updated>
         <summary type="html"><![CDATA[<h2 id="问题">问题</h2>
@@ -299,8 +691,8 @@ Comparator中compare有如下描述。</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[Flutter初识]]></title>
-        <id>https://songhanghang.github.io/post/hello-gridea</id>
-        <link href="https://songhanghang.github.io/post/hello-gridea">
+        <id>https://songhanghang.github.io/post/hello-gridea/</id>
+        <link href="https://songhanghang.github.io/post/hello-gridea/">
         </link>
         <updated>2019-07-29T12:09:30.000Z</updated>
         <content type="html"><![CDATA[<meta name="referrer" content="no-referrer" />
@@ -347,11 +739,11 @@ Flutter包含了许多核心的widget，如滚动、导航、图标和字体等�
 <h2 id="flutter核心原理">Flutter核心原理</h2>
 <h3 id="框架分层">框架分层</h3>
 <p>Flutter框架是一个分层的结构，每个层都建立在前一层之上。使用Skia渲染引擎，因Android自带Skia, 所以打包Android不包含Skia, 这也是IOS体积较大的重要原因。<br>
-<img src="https://wx4.sinaimg.cn/mw690/006292TQly1g48yigwv61j30yu0iyq7m.jpg" alt=""></p>
+<img src="https://wx4.sinaimg.cn/mw690/006292TQly1g48yigwv61j30yu0iyq7m.jpg" alt="" loading="lazy"></p>
 <h3 id="渲染流程">渲染流程</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/5639324-4424415ff5f8681f.jpg?imageMogr2/auto-orient/" alt=""></p>
+<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/5639324-4424415ff5f8681f.jpg?imageMogr2/auto-orient/" alt="" loading="lazy"></figure>
 <h3 id="三棵神树">三棵神树</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/5639324-611c58af9c948150.jpg" alt=""><br>
+<p><img src="https://upload-images.jianshu.io/upload_images/5639324-611c58af9c948150.jpg" alt="" loading="lazy"><br>
 所有故事，从这个三棵树开始...<br>
 这三颗🌲分别是 Widget Tree, Element Tree, RenderObject Tree.</p>
 <h4 id="第一颗widget">第一颗Widget🌲</h4>
@@ -426,7 +818,7 @@ RenderObject表示为渲染树的一个对象<br>
 <h2 id="widget-种类">Widget 种类</h2>
 <p>Widget本身通常由许多更小的、单一用途widget组成，这些widget结合起来产生强大的效果。例如，Container是一个常用的Widget， 由多个Widget组成，这些widget负责布局、绘制、定位和调整大小。具体来说，Container由 LimitedBox、 ConstrainedBox、 Align、 Padding、 DecoratedBox、 和Transform组成。 您可以用各种方式组合这些以及其他简单的Widget，而不是继承容器。</p>
 <p>类层次结构很浅且很宽，可以最大限度地增加可能的组合数量。<br>
-<img src="https://wx1.sinaimg.cn/mw690/006292TQly1g48yigwyf5j315u0nwq58.jpg" alt=""></p>
+<img src="https://wx1.sinaimg.cn/mw690/006292TQly1g48yigwyf5j315u0nwq58.jpg" alt="" loading="lazy"></p>
 <h3 id="stateless-widget">Stateless Widget</h3>
 <p>无状态Widget, 使用于不需要维护状态的场景，即创建后不可修改配置数据。</p>
 <pre><code class="language-dart">abstract class StatelessWidget extends Widget {
@@ -441,7 +833,7 @@ RenderObject表示为渲染树的一个对象<br>
 </code></pre>
 <p>对应StatelessElement， 其中BuildContext即为对应的Element实例。</p>
 <h3 id="statefulwidget">StatefulWidget</h3>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g48yigw7ebj30zk0i4abe.jpg" alt="-w640"></p>
+<figure data-type="image" tabindex="2"><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g48yigw7ebj30zk0i4abe.jpg" alt="-w640" loading="lazy"></figure>
 <p>有状态widget, 通过setState(), 可以触发rebuild Widget, 从而刷新界面。<br>
 适用于数据改变需要刷新界面的场景。</p>
 <pre><code class="language-dart">abstract class StatefulWidget extends Widget {
@@ -529,7 +921,7 @@ Flutter也使用pubspec.yaml文件来管理应用程序所需的资源</p>
 环境配置略过...</p>
 <h3 id="ide插件">IDE插件</h3>
 <p>Flutter提供Android Studio和VS Code插件，这里只看Android Studio. 需下载flutter和dart插件, 安装后如图<br>
-<img src="https://wx2.sinaimg.cn/mw1024/006292TQly1g48yih40xgj30u00ym1kx.jpg" alt="-w1148"></p>
+<img src="https://wx2.sinaimg.cn/mw1024/006292TQly1g48yih40xgj30u00ym1kx.jpg" alt="-w1148" loading="lazy"></p>
 <h3 id="code打开">Code打开</h3>
 <p>还有一些工具需要通过代码打开。</p>
 <pre><code class="language-dart">void main() {
@@ -543,34 +935,34 @@ Flutter也使用pubspec.yaml文件来管理应用程序所需的资源</p>
 <h3 id="一些有意思的工具">一些有意思的工具</h3>
 <h4 id="select-widget-mode">Select Widget Mode</h4>
 <p>滑动时显示触摸区域对应的Widget类型。</p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g491cv5nf9g30a80fl7wl.gif" alt=""></p>
+<figure data-type="image" tabindex="3"><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g491cv5nf9g30a80fl7wl.gif" alt="" loading="lazy"></figure>
 <h4 id="refresh-widget-info">Refresh Widget Info</h4>
 <p>刷新 rebuild widget。</p>
 <h4 id="show-performance-overlay">Show Performance Overlay</h4>
 <p>显示每帧GPU绘制时间，和UI绘制时间，分别显示单帧最大绘制时间和平均绘制时间，debug模式JIT边解释边执行导致UI不能跑慢60帧每秒。</p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g491nqk44og30ah0ilqv8.gif" alt=""></p>
+<figure data-type="image" tabindex="4"><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g491nqk44og30ah0ilqv8.gif" alt="" loading="lazy"></figure>
 <h4 id="toggle-platform">Toggle Platform</h4>
 <p>切换Android和IOS平台, 注意不只是TitleBar显示效果不同，转场动画也不相同。</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g4920glkqhg309r0hbe84.gif" alt=""></p>
-<p><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g4920i5z51g30a40hykjo.gif" alt=""></p>
+<figure data-type="image" tabindex="5"><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g4920glkqhg309r0hbe84.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g4920i5z51g30a40hykjo.gif" alt="" loading="lazy"></figure>
 <h4 id="show-debug-paint">Show Debug Paint</h4>
 <p>显示View边框</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g492agwkb1j30am0ixqbm.jpg" alt=""></p>
+<figure data-type="image" tabindex="7"><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g492agwkb1j30am0ixqbm.jpg" alt="" loading="lazy"></figure>
 <h4 id="show-paint-baselines">Show Paint Baselines</h4>
 <p>显示Text基准线</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g492cebm1pj30am0ixagj.jpg" alt=""></p>
+<figure data-type="image" tabindex="8"><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g492cebm1pj30am0ixagj.jpg" alt="" loading="lazy"></figure>
 <h4 id="debugpaintpointersenabled">debugPaintPointersEnabled</h4>
 <p>显示突出对象</p>
-<p><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g492kv7r98j30am0ix43o.jpg" alt=""></p>
+<figure data-type="image" tabindex="9"><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g492kv7r98j30am0ix43o.jpg" alt="" loading="lazy"></figure>
 <h4 id="debugpaintlayerbordersenabled">debugPaintLayerBordersEnabled</h4>
 <p>显示层级边界</p>
-<p><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g492n56azoj30am0ixn3a.jpg" alt=""></p>
+<figure data-type="image" tabindex="10"><img src="https://wx3.sinaimg.cn/mw690/006292TQly1g492n56azoj30am0ixn3a.jpg" alt="" loading="lazy"></figure>
 <h4 id="debugrepaintrainbowenabled">debugRepaintRainbowEnabled</h4>
 <p>显示重绘</p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g492qil7dwg30a40hy7wj.gif" alt=""></p>
+<figure data-type="image" tabindex="11"><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g492qil7dwg30a40hy7wj.gif" alt="" loading="lazy"></figure>
 <h2 id="开源库支持">开源库支持</h2>
 <p><a href="https://pub.dev/flutter">https://pub.dev/flutter</a><br>
-<img src="https://wx1.sinaimg.cn/mw690/006292TQly1g4c115fuhaj30u01144ky.jpg" alt=""><br>
+<img src="https://wx1.sinaimg.cn/mw690/006292TQly1g4c115fuhaj30u01144ky.jpg" alt="" loading="lazy"><br>
 Flutter已有很多高质量的开源库，涵盖常用的网络请求，数据库，图片处理，图片选择器，地图，支付，WebView ，路由，shared_preferences等等。各大厂也在积极的推进Flutter, 相信未来Flutter开发会更简单和快速。</p>
 <h2 id="总结-2">总结</h2>
 <pre><code>Makes it easy and fast to build beautiful mobile apps
@@ -580,7 +972,7 @@ for iOS and Android.
 <p>后续Flutter如果能顺利推进Web, MacOS, Linux, Window支持，相信一门语言走天下的那一天就要来了...</p>
 <h2 id="demo-新闻客户端">DEMO 新闻客户端</h2>
 <p><a href="https://github.com/songhanghang/flutter_news_demo"><strong>https://github.com/songhanghang/flutter_news_demo</strong></a></p>
-<p><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g3v1ygaisdg30dc0np1l0.gif" alt="gif"></p>
+<figure data-type="image" tabindex="12"><img src="https://wx2.sinaimg.cn/mw690/006292TQly1g3v1ygaisdg30dc0np1l0.gif" alt="gif" loading="lazy"></figure>
 <p>源码：</p>
 <pre><code class="language-dart">import 'dart:async';
 import 'dart:convert';
@@ -841,8 +1233,8 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
     </entry>
     <entry>
         <title type="html"><![CDATA[Redcord 连接你我]]></title>
-        <id>https://songhanghang.github.io/post/redcord-lian-jie-ni-wo</id>
-        <link href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo">
+        <id>https://songhanghang.github.io/post/redcord-lian-jie-ni-wo/</id>
+        <link href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo/">
         </link>
         <updated>2019-06-06T11:59:33.000Z</updated>
         <summary type="html"><![CDATA[<meta name="referrer" content="no-referrer" />
@@ -882,9 +1274,9 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
 <p>那么做个好看的动态壁纸，通过壁纸定位和同步信息就可以解决这个问题.</p>
 <p>Coding....</p>
 <p>emmmmm....</p>
-<p><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g25r4ipgbkg30bd0om4qr.gif" alt="图片"></p>
+<figure data-type="image" tabindex="1"><img src="https://wx1.sinaimg.cn/mw690/006292TQly1g25r4ipgbkg30bd0om4qr.gif" alt="图片" loading="lazy"></figure>
 <h3 id="下载">下载</h3>
-<p><img src="https://wx4.sinaimg.cn/mw690/006292TQly1g3ac6bxnz9j30440440b9.jpg" alt="图片"></p>
+<figure data-type="image" tabindex="2"><img src="https://wx4.sinaimg.cn/mw690/006292TQly1g3ac6bxnz9j30440440b9.jpg" alt="图片" loading="lazy"></figure>
 <p><a href="https://www.coolapk.com/apk/com.song.redcord">https://www.coolapk.com/apk/com.song.redcord</a></p>
 <h3 id="软件功能介绍">软件功能介绍</h3>
 <h4 id="注册与登录">注册与登录</h4>
@@ -915,8 +1307,8 @@ class _PageWidgetState extends State&lt;_PageWidget&gt; {
     </entry>
     <entry>
         <title type="html"><![CDATA[MakeFile指南]]></title>
-        <id>https://songhanghang.github.io/post/makefile-zhi-nan</id>
-        <link href="https://songhanghang.github.io/post/makefile-zhi-nan">
+        <id>https://songhanghang.github.io/post/makefile-zhi-nan/</id>
+        <link href="https://songhanghang.github.io/post/makefile-zhi-nan/">
         </link>
         <updated>2018-07-01T12:13:27.000Z</updated>
         <summary type="html"><![CDATA[<blockquote>
@@ -1627,8 +2019,8 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
     </entry>
     <entry>
         <title type="html"><![CDATA[Goaway 远离手机]]></title>
-        <id>https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji</id>
-        <link href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji">
+        <id>https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji/</id>
+        <link href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji/">
         </link>
         <updated>2018-04-05T12:09:18.000Z</updated>
         <summary type="html"><![CDATA[<p>这是一款有意思的防沉迷应用...<br>
@@ -1699,8 +2091,8 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
     </entry>
     <entry>
         <title type="html"><![CDATA[如何保证ImageView.setImageResource()传入.9图片时展示正常？]]></title>
-        <id>https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang</id>
-        <link href="https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang">
+        <id>https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang/</id>
+        <link href="https://songhanghang.github.io/post/ru-he-bao-zheng-imageviewsetimageresourcechuan-ru-9-tu-pian-shi-zhan-shi-zheng-chang/">
         </link>
         <updated>2017-08-09T12:14:53.000Z</updated>
         <summary type="html"><![CDATA[<meta name="referrer" content="no-referrer" />
@@ -1712,7 +2104,7 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
 <ul>
 <li>
 <p>ic_launcher.9.png<br>
-<img src="http://imglf0.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVDl6Q0RsWVdKcGlGMWNnQThGbU90OS8wSFAzd1NUWDVBPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=".9图片"></p>
+<img src="http://imglf0.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVDl6Q0RsWVdKcGlGMWNnQThGbU90OS8wSFAzd1NUWDVBPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=".9图片" loading="lazy"></p>
 </li>
 <li>
 <p>deafault&amp;centerCrop 同样裁剪中间显示</p>
@@ -1727,7 +2119,7 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
         android:scaleType=&quot;centerCrop&quot;
         android:src=&quot;@drawable/ic_launcher&quot; /&gt;
 </code></pre>
-<p><img src="http://imglf1.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVmloSGNFZldDOUcvMTcyeW5DUTlWS1IvREJyTGc1cWNnPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="默认"></p>
+<figure data-type="image" tabindex="1"><img src="http://imglf1.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVmloSGNFZldDOUcvMTcyeW5DUTlWS1IvREJyTGc1cWNnPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="默认" loading="lazy"></figure>
 <ul>
 <li>fitXy显示如预期</li>
 </ul>
@@ -1738,7 +2130,7 @@ miui-songhang：<a href="https://github.com/songhanghang">https://github.com/son
         android:src=&quot;@drawable/ic_launcher&quot; /&gt;
 
 </code></pre>
-<p><img src="http://imglf2.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVFo5eTJUZTdmTDY4U2VWb3FUTVNCUUV4MXg0L216Ykx3PT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="fitxy"></p>
+<figure data-type="image" tabindex="2"><img src="http://imglf2.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVFo5eTJUZTdmTDY4U2VWb3FUTVNCUUV4MXg0L216Ykx3PT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="fitxy" loading="lazy"></figure>
 <h2 id="问题分析-read-the-fucking-source-code">问题分析 (read the fucking source code)</h2>
 <ol>
 <li>mScaleType怎么参与图片裁剪逻辑？</li>

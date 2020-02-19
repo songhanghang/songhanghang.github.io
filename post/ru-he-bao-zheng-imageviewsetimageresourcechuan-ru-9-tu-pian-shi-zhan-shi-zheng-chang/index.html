@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>如何保证ImageView.setImageResource()传入.9图片时展示正常？ | 宋航</title>
 <meta name="description" content="相信美好的事情即将发生" />
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1581263666063">
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1582111216612">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://songhanghang.github.io">
-  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1581263666063" alt="">
+  <img class="avatar" src="https://songhanghang.github.io/images/avatar.png?v=1582111216612" alt="">
   </a>
   <h1 class="site-title">
     宋航
@@ -97,10 +97,10 @@
                 2017-08-09
               </span>
               <span>
-                2 min read
+                3 min read
               </span>
               
-                <a href="https://songhanghang.github.io/tag/YaO8HL_it" class="post-tag">
+                <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
                   # Android
                 </a>
               
@@ -115,7 +115,7 @@
 <ul>
 <li>
 <p>ic_launcher.9.png<br>
-<img src="http://imglf0.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVDl6Q0RsWVdKcGlGMWNnQThGbU90OS8wSFAzd1NUWDVBPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=".9图片"></p>
+<img src="http://imglf0.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVDl6Q0RsWVdKcGlGMWNnQThGbU90OS8wSFAzd1NUWDVBPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=".9图片" loading="lazy"></p>
 </li>
 <li>
 <p>deafault&amp;centerCrop 同样裁剪中间显示</p>
@@ -130,7 +130,7 @@
         android:scaleType=&quot;centerCrop&quot;
         android:src=&quot;@drawable/ic_launcher&quot; /&gt;
 </code></pre>
-<p><img src="http://imglf1.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVmloSGNFZldDOUcvMTcyeW5DUTlWS1IvREJyTGc1cWNnPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="默认"></p>
+<figure data-type="image" tabindex="1"><img src="http://imglf1.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVmloSGNFZldDOUcvMTcyeW5DUTlWS1IvREJyTGc1cWNnPT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="默认" loading="lazy"></figure>
 <ul>
 <li>fitXy显示如预期</li>
 </ul>
@@ -141,7 +141,7 @@
         android:src=&quot;@drawable/ic_launcher&quot; /&gt;
 
 </code></pre>
-<p><img src="http://imglf2.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVFo5eTJUZTdmTDY4U2VWb3FUTVNCUUV4MXg0L216Ykx3PT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="fitxy"></p>
+<figure data-type="image" tabindex="2"><img src="http://imglf2.nosdn.127.net/img/Q3dzYVVKdDlxT21CTEpLdmhuT3VzVFo5eTJUZTdmTDY4U2VWb3FUTVNCUUV4MXg0L216Ykx3PT0.jpg?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt="fitxy" loading="lazy"></figure>
 <h2 id="问题分析-read-the-fucking-source-code">问题分析 (read the fucking source code)</h2>
 <ol>
 <li>mScaleType怎么参与图片裁剪逻辑？</li>
