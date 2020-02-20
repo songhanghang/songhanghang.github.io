@@ -1,217 +1,205 @@
-<!DOCTYPE html>
 <html>
-  <head>
-       <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta content="yes" name="apple-mobile-web-app-capable" />
-  <meta content="black" name="apple-mobile-web-app-status-bar-style" />
-  <meta name="referrer" content="never">
-  <meta name="keywords" content="">
-  <meta name="description" content="">
-  <meta name="author" content="kveln">
-  <title>App | 宋航</title>
-  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-  <!-- <link href="https://songhanghang.github.io/media/css/bootstrap.min.css" rel="stylesheet"> -->
-  <!--  <link href="https://songhanghang.github.io/media/css/all.min.css" rel="stylesheet" type="text/css"> -->
-  <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-  <link rel="alternate" type="application/rss+xml" title="App | 宋航 » Feed" href="https://songhanghang.github.io/atom.xml">
-  <link rel="stylesheet"href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
-  <link href="https://songhanghang.github.io/styles/main.css" rel="stylesheet">
-  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/highlight.min.js"></script>
-  <!-- <script src="https://songhanghang.github.io/media/scripts/jquery.min.js"></script> -->
-  <script>hljs.initHighlightingOnLoad();</script>
-  
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>App | 宋航</title>
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1582193098400">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+<link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-  </head>
-  <body>
-  	<!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand" href="https://songhanghang.github.io">宋航</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          
-          <li class="nav-item">
-              
-              <a class="nav-link" href="/">首页</a>
-              
-          </li>
-          
-          <li class="nav-item">
-              
-              <a class="nav-link" href="/archives">归档</a>
-              
-          </li>
-          
-          <li class="nav-item">
-              
-              <a class="nav-link" href="/tags">标签</a>
-              
-          </li>
-          
-          <li class="nav-item">
-              
-              <a class="nav-link" href="/post/about">关于</a>
-              
-          </li>
-          
-        </ul>
-      </div>
-    </div>
-  </nav>
-<!-- Page Header -->
-  <header class="masthead" style="background-image: url('https://songhanghang.github.io/media/images/home-bg.jpg')">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-heading">
-            <h1 class="tag-tl">#App</h1>
-          </div>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- DEMO JS -->
+<script src="media/scripts/index.js"></script>
+
+
+
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            宋航
         </div>
-      </div>
     </div>
-  </header>
-    <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-       
-        <div class="post-preview">
-          <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo/">
-            <h2 class="post-title">
-              Redcord 连接你我
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</nav>
+        <div class="current-tag-container">
+            <h2 class="title gt-c-content-color-first">
+                #App
             </h2>
-            </a>
-            <h3 class="post-subtitle">
-              <meta name="referrer" content="no-referrer" />
+        </div>
+        <div class="post-list-container">
+    <div class="post-inner">
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo/">
+                            <span class="post-title gt-c-content-color-first">Redcord 连接你我</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <meta name="referrer" content="no-referrer" />
 非常抱歉，因近期政策原因，储存服务必须备案，费用不低，所以10月1号起有可能随时停服...
 <p>在此祝各位幸福哦！</p>
 <p>是否遇到过，有急事找Ta, 但是电话打不通，微信没人接，即使科技再发达，找Ta时你也抓瞎！</p>
 
-            </h3>
-          <p class="post-meta">
-             <span class="time">2019-06-06</span>
-             <span>,</span>
-             <span class="post-stats">4 min read</span>
-            </p>
-        </div>
-        <hr>
-        <div class="clearfix">
-        </div>
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2019-06-06 ·
+                        </time>
+                        
+                            <a href="https://songhanghang.github.io/tag/rFS5po1sa/" class="post-tag">
+                                # App
+                            </a>
+                        
+                            <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
+                                # Android
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://songhanghang.github.io/post/redcord-lian-jie-ni-wo/" class="post-feature-image"
+                       style="background-image: url('https://songhanghang.github.io/post-images/redcord-lian-jie-ni-wo.png')">
+                    </a>
+                
+            </div>
         
-        <div class="post-preview">
-          <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji/">
-            <h2 class="post-title">
-              Goaway 远离手机
-            </h2>
-            </a>
-            <h3 class="post-subtitle">
-              <p>这是一款有意思的防沉迷应用...<br>
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji/">
+                            <span class="post-title gt-c-content-color-first">Goaway 远离手机</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>这是一款有意思的防沉迷应用...<br>
 时刻提醒消耗在手机上的时间，<br>
 点亮关闭间帮你记录时间，</p>
 
-            </h3>
-          <p class="post-meta">
-             <span class="time">2018-04-05</span>
-             <span>,</span>
-             <span class="post-stats">2 min read</span>
-            </p>
-        </div>
-        <hr>
-        <div class="clearfix">
-        </div>
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2018-04-05 ·
+                        </time>
+                        
+                            <a href="https://songhanghang.github.io/tag/rFS5po1sa/" class="post-tag">
+                                # App
+                            </a>
+                        
+                            <a href="https://songhanghang.github.io/tag/YaO8HL_it/" class="post-tag">
+                                # Android
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://songhanghang.github.io/post/goaway-yuan-chi-shou-ji/" class="post-feature-image"
+                       style="background-image: url('https://songhanghang.github.io/post-images/goaway-yuan-chi-shou-ji.jpeg')">
+                    </a>
+                
+            </div>
         
-        
-        
-      </div>
     </div>
-  </div>
+</div>
+        <div class="pagination-container">
+    
+    
+</div>
 
-  
- <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <ul class="list-inline text-center">
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">相信美好的事情即将发生</div>
+    <div class="social-container">
+        
             
+                <a href="https://github.com/songhanghang" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
             
-            <li class="list-inline-item">
-              <a href="https://github.com/songhanghang" target="_blank">
-                <span class="fa-stack fa-lg">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-            </li>
+        
             
-              
+        
             
-              
+        
             
-              
+        
             
-              
+        
             
-              
-            
-              
-            
-              
-              <li class="list-inline-item">
-              <a href="https://songhanghang.github.io/atom.xml" target="_blank">
-                <span class="fa-stack fa-lg">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-              </li>
-          </ul>
-          <p class="copyright text-muted">Copyright &copy;<span>宋航</span><br><a href="https://github.com/getgridea/gridea" class="Themeinfo">Powered by Gridea</a></p>
-        </div>
-      </div>
+        
     </div>
-   </footer>
-  <!-- Bootstrap core JavaScript -->
-  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-  <!-- <script src="https://songhanghang.github.io/media/scripts/bootstrap.bundle.min.js"></script> -->
-  <!-- Bootstrap core JavaScript -->
-  <script src="https://cdn.jsdelivr.net/gh/Alanrk/clean-cdn@1.0/scripts/clean-blog.min.js"></script>
-  <!-- <script src="https://songhanghang.github.io/media/scripts/clean-blog.min.js"></script> -->
-  <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
-  <style type="text/css">a.back_to_top{text-decoration:none;position:fixed;bottom:40px;right:30px;background:#f0f0f0;height:40px;width:40px;border-radius:50%;line-height:36px;font-size:18px;text-align:center;transition-duration:.5s;transition-propety:background-color;display:none}a.back_to_top span{color:#888}a.back_to_top:hover{cursor:pointer;background:#dfdfdf}a.back_to_top:hover span{color:#555}@media print,screen and(max-width:580px){.back_to_top{display:none!important}}</style>
-<a id="back_to_top" href="#" class="back_to_top">
-  <span>▲</span></a>
-<script>$(document).ready((function(_this) {
-    return function() {
-      var bt;
-      bt = $('#back_to_top');
-      if ($(document).width() > 480) {
-        $(window).scroll(function() {
-          var st;
-          st = $(window).scrollTop();
-          if (st > 30) {
-            return bt.css('display', 'block')
-          } else {
-            return bt.css('display', 'none')
-          }
-        });
-        return bt.click(function() {
-          $('body,html').animate({
-            scrollTop: 0
-          },
-          800);
-          return false
-        })
-      }
-    }
-  })(this));</script>
-  </body>
+    Powered by <a href="https://github.com/songhanghang" target="_blank">Garra</a> | <a href="https://songhanghang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+    hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
 </html>
