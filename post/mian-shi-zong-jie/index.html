@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>CODE | 宋航</title>
-<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1582193098400">
+<link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1582385598279">
 <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -243,9 +243,7 @@ mAttachedScrap、mCachedViews、mViewCacheExtension、mRecyclerPool</p>
 <li>prefetch</li>
 </ol>
 <ul>
-<li>ListView与RecyclerView的差别 RecyclerView缓存机制<br>
-recyclerview的缓存机制，局部刷新，结合diffutil的使用等<br>
-okhttp，连接池，拦截器责任链</li>
+<li>okhttp，连接池，拦截器责任链</li>
 <li>性能相关的有内存，cpu，卡顿，启动速度等，怎么做的<br>
 https://testerhome.com/articles/17101</li>
 <li>aop的框架，apt、aspectj、asm，Javassist</li>
@@ -290,7 +288,63 @@ https://testerhome.com/articles/17101</li>
 </ul>
 <h2 id="网络">网络</h2>
 <ul>
-<li>OKHTTP异步，HTTP请求流程， UDP TCP</li>
+<li>
+<p>分层</p>
+<ol>
+<li>HTTP 应用层，无状态有连接。</li>
+<li>TCP UDP 传输层, TCP面向连接，稳定可靠，效率低, UDP非连接，不可靠，容易丢包，但是速度快。</li>
+<li>IP  网络层， 非连接</li>
+</ol>
+</li>
+<li>
+<p>HTTP请求流程</p>
+<ul>
+<li>DNS域名解析器解析获取IP</li>
+<li>TCP/IP协议与服务端建立连接
+<ul>
+<li>连接-三次握手， 请求服务端能收到吗，服务端收到后回传客户端能收到吗，客户端回答服务能收到</li>
+</ul>
+</li>
+<li>客户端发送服务器数据</li>
+<li>TCP/IP与服务器断开连接
+<ul>
+<li>断开-四期挥手， 请求服务断开连接，服务器回复收到但是还没后发送完数据，服务器回复发送完数据，客户端断开连接</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>HTTP报文</p>
+<ul>
+<li>
+<p>请求报文</p>
+<ol>
+<li>请求行 HTTP版本 请求方式 GET POST 请求PATH</li>
+<li>请求头 host cocckies agent客户端新 accept 接收文件 acceptType 接收文件类型 接受文件大小</li>
+<li>请求body POST body</li>
+</ol>
+</li>
+<li>
+<p>响应报文</p>
+<ol>
+<li>响应行 HTTP版本 状态码 200-299成功 300-399重定向 400-499客户端错误 500-599服务端错误</li>
+<li>响应头 Content-Length Date LastModify Content-type setCoockies</li>
+<li>响应数据 返回JSON或者HMTL</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>HTTPS请求 HTTP+SSL安全层<br>
+需要两次HTTP请求。</p>
+<ol>
+<li>第一次连接服务端回传证书和公钥，客户端用手机预装的证书校验服务器证书，校验失败，断开连接，校验成功，随机生成一个对称加密的秘钥。 用服务端下发的公钥进行非对称加密。</li>
+<li>第二次连接把客户端加密后的秘钥，发送给服务端，服务端用自己的私钥解密获取客户端对称秘钥。用客户端秘钥加密返回数据，客户端收到数据后用自己的秘钥进行解密。</li>
+</ol>
+</li>
+<li>
+<p>HTTP HTTPS端口不同，443，HTTPS需要向CA申请证书。</p>
+</li>
 </ul>
 <h2 id="经典源码">经典源码</h2>
 <h2 id="设计模式">设计模式</h2>
@@ -345,8 +399,8 @@ https://testerhome.com/articles/17101</li>
 <li>二叉树深度 宽度</li>
 <li>链表合并 反转 相交</li>
 <li>链表环的问题 https://www.cnblogs.com/xudong-bupt/p/3667729.html</li>
+<li>行列有序数据查找对应值 https://blog.csdn.net/wennfengg/article/details/9156135</li>
 </ul>
-<!-- more -->
 
                 </div>
             </article>
