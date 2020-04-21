@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://songhanghang.github.io</id>
     <title>宋航</title>
-    <updated>2020-03-24T10:08:24.064Z</updated>
+    <updated>2020-04-21T12:32:02.055Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://songhanghang.github.io"/>
     <link rel="self" href="https://songhanghang.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://songhanghang.github.io/images/avatar.png</logo>
     <icon>https://songhanghang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 宋航</rights>
+    <entry>
+        <title type="html"><![CDATA[Android自动设置HTTP代理]]></title>
+        <id>https://songhanghang.github.io/post/android-zi-dong-she-zhi-http-dai-li/</id>
+        <link href="https://songhanghang.github.io/post/android-zi-dong-she-zhi-http-dai-li/">
+        </link>
+        <updated>2020-04-21T12:24:51.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[CODE]]></title>
         <id>https://songhanghang.github.io/post/mian-shi-zong-jie/</id>

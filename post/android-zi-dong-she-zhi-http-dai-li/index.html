@@ -3,7 +3,7 @@
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>关于 | 宋航</title>
+<title>Android自动设置HTTP代理 | 宋航</title>
 <link rel="shortcut icon" href="https://songhanghang.github.io/favicon.ico?v=1587472317219">
 <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 <link rel="stylesheet" href="https://songhanghang.github.io/styles/main.css">
@@ -87,20 +87,75 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    关于
+                    Android自动设置HTTP代理
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
-                        · 2019-01-25 ·
+                        · 2020-04-21 ·
                     </time>
                     
                 </div>
                 <div class="post-content">
-                    <figure data-type="image" tabindex="1"><img src="https://wx4.sinaimg.cn/mw690/006292TQly1gc30pdz88ej30gw0gsn5j.jpg" alt="https://wx4.sinaimg.cn/mw690/006292TQly1gc30pdz88ej30gw0gsn5j.jpg" loading="lazy"></figure>
-<p>扫上面的二维码图案，加我微信</p>
-<blockquote>
-<p>小米MIUI 一枚普通的Android工程师</p>
-</blockquote>
+                    <h2 id="正常流程">正常流程</h2>
+<ol>
+<li>进入设置</li>
+<li>进入 WLAN</li>
+<li>找对应 wifi 连接</li>
+<li>进入详情</li>
+<li>找到代理</li>
+<li>选择手动</li>
+<li>输入主机名</li>
+<li>输入端口号</li>
+<li>最后保存</li>
+</ol>
+<p>每次都是重复操作，累加的时间成本很高，一不小心，还会写错 ...</p>
+<h2 id="自动设置">自动设置</h2>
+<p>使用以下脚本，自定义自己的 <code>default_proxy，</code></p>
+<h3 id="设置代理">设置代理</h3>
+<p>只需一行代码</p>
+<p><code>$ ./easy_proxy.sh set</code></p>
+<h3 id="删除代理">删除代理</h3>
+<p>删除代理需要重启生效</p>
+<p><code>$ ./easy_proxy.sh clean reboot</code></p>
+<p>如果再设置个全局的别名 alias，用起来会更方便</p>
+<p><code>$ alias kproxy=&quot;sh ~/autoshell/easy_proxy.sh&quot;</code></p>
+<h2 id="code"># Code</h2>
+<p>新建  <code>easy_proxy.sh</code> 的文本，把以下代码贴进去即可</p>
+<pre><code class="language-bash">#!/bin/bash
+echo &quot;\n---------------- Support ------------------&quot;
+echo &quot;设置默认代理    ./easy_proxy.sh set&quot;
+echo &quot;设置自定义代理  ./easy_proxy.sh set ****:8888&quot;
+echo &quot;删除代理       ./easy_proxy.sh clean&quot;
+echo &quot;删除代理并重启  ./easy_proxy.sh clean reboot&quot;
+echo &quot;--------------------------------------------\n&quot;
+
+# 自定义你自己的默认代理
+default_proxy=&quot;172.16.85.26:8888&quot;
+
+echo &quot;默认代理为 $default_proxy\n&quot;
+if [ &quot;$1&quot; == &quot;set&quot; ];then
+    if [ -n &quot;$2&quot; ];then
+        echo &quot;设置自定义代理 $2&quot;
+        adb shell settings put global http_proxy $2
+    else
+        echo &quot;设置默认代理 $default_proxy&quot;
+        adb shell settings put global http_proxy $default_proxy
+    fi
+elif [ &quot;$1&quot; == &quot;clean&quot; ];then
+    echo &quot;清除代理成功, 需要重启手机生效&quot;
+    echo &quot;1. 手动执行 adb reboot&quot;
+    echo &quot;2. 直接执行 clean reboot&quot;
+    adb shell settings delete global http_proxy
+    adb shell settings delete global global_http_proxy_host
+    adb shell settings delete global global_http_proxy_port
+    if [ &quot;$2&quot; == &quot;reboot&quot; ];then
+        adb reboot
+        echo &quot;手机已重启，请耐心等待&quot;
+    fi
+else
+    echo &quot;!!! 请输入合法的操作符 !!!&quot;
+fi
+</code></pre>
 
                 </div>
             </article>
@@ -109,8 +164,8 @@
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://songhanghang.github.io/post/makefile-zhi-nan/" class="post-title gt-a-link">
-                    MakeFile指南
+                <a href="https://songhanghang.github.io/post/mian-shi-zong-jie/" class="post-title gt-a-link">
+                    CODE
                 </a>
             </div>
         
